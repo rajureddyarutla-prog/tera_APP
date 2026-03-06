@@ -66,6 +66,17 @@ export default async function PlatformPage() {
         { title: "Veterinary API Layer", desc: "Planned integrations with veterinary clinic management systems and electronic health record platforms.", color: "#8FA7FF" },
     ];
 
+    // New CTA Section from Strapi
+    const cta = data?.cta_section || {
+        badge: "Growth Strategy",
+        title: "Toward Population-Scale Predictive Health",
+        description: "Mattera is modularly scaling from a software intelligence layer to integrated wearable hardware, ultimately building a global data network for animal health intelligence.",
+        links: [
+            { label: "Research Pillars", href: "/research-collaboration", primary: true },
+            { label: "Investment Roadmap", href: "/investors", primary: false },
+        ]
+    };
+
     return (
         <div style={{ background: "var(--bg-primary)" }}>
             {/* Hero */}
@@ -152,15 +163,21 @@ export default async function PlatformPage() {
             <section className="section-pad">
                 <div className="section-container">
                     <div className="glass-card" style={{ padding: "4rem", textAlign: "center", background: "linear-gradient(to bottom right, rgba(79,209,197,0.03), rgba(143,167,255,0.03))" }}>
-                        <div className="tag-pill" style={{ marginBottom: "1.5rem" }}>Growth Strategy</div>
-                        <h2 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>Toward Population-Scale <span className="gradient-text">Predictive Health</span></h2>
+                        <div className="tag-pill" style={{ marginBottom: "1.5rem" }}>{cta.badge}</div>
+                        <h2 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>{cta.title}</h2>
                         <p style={{ color: "var(--text-secondary)", maxWidth: "650px", margin: "0 auto 3rem", lineHeight: 1.8 }}>
-                            Mattera is modularly scaling from a software intelligence layer to integrated wearable hardware,
-                            ultimately building a global data network for animal health intelligence.
+                            {cta.description}
                         </p>
                         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-                            <Link href="/research" className="btn-primary">Research Pillars <ArrowRight size={15} /></Link>
-                            <Link href="/investors" className="btn-ghost">Investment Roadmap <ArrowRight size={15} /></Link>
+                            {cta.links.map((link: any) => (
+                                <Link
+                                    key={link.label}
+                                    href={link.href}
+                                    className={link.primary ? "btn-primary" : "btn-ghost"}
+                                >
+                                    {link.label} <ArrowRight size={15} />
+                                </Link>
+                            ))}
                         </div>
                     </div>
                 </div>

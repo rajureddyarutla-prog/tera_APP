@@ -1,0 +1,203 @@
+"use client";
+
+import { useState } from "react";
+import { Send, CheckCircle } from "lucide-react";
+
+interface ContactFormProps {
+    enquiryTypes: string[];
+}
+
+export default function ContactForm({ enquiryTypes = [
+    "Research Collaboration",
+    "Investment Discussion",
+    "Veterinary Partnership",
+    "Hardware Development",
+    "Media / Press",
+    "General Enquiry",
+] }: ContactFormProps) {
+    const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        organisation: "",
+        type: enquiryTypes[0] || "General Enquiry",
+        message: "",
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(form),
+            });
+
+            if (response.ok) {
+                setSubmitted(true);
+            } else {
+                const data = await response.json();
+                alert(data.error || "Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            alert("Failed to connect to the server. Please check your internet connection.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (submitted) {
+        return (
+            <div
+                className="glass-card"
+                style={{
+                    padding: "4rem 3rem",
+                    textAlign: "center",
+                    borderColor: "var(--accent-teal)",
+                    background: "var(--bg-pill)",
+                }}
+            >
+                <CheckCircle size={48} color="var(--accent-teal)" style={{ marginBottom: "1.5rem" }} />
+                <h2 style={{ fontSize: "1.375rem", marginBottom: "0.875rem", color: "var(--text-primary)" }}>
+                    <span className="gradient-text">Message Received</span>
+                </h2>
+                <p style={{ color: "var(--text-secondary)", lineHeight: 1.8 }}>
+                    Thank you for reaching out to Mattera Life Systems. We will review your
+                    enquiry and respond to <strong style={{ color: "var(--accent-teal)" }}>{form.email}</strong> within 2–3 business days.
+                </p>
+            </div>
+        );
+    }
+
+    return (
+        <form
+            onSubmit={handleSubmit}
+            className="glass-card"
+            style={{ padding: "2.5rem" }}
+        >
+            <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.25rem", marginBottom: "0.5rem" }}>Send an Enquiry</h2>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginBottom: "2rem" }}>
+                All fields are required. Responses within 2–3 business days.
+            </p>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }} className="form-split">
+                <div>
+                    <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.5rem" }}>
+                        Full Name
+                    </label>
+                    <input
+                        type="text"
+                        required
+                        className="input-field"
+                        placeholder="Dr. Jane Smith"
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    />
+                </div>
+                <div>
+                    <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.5rem" }}>
+                        Email Address
+                    </label>
+                    <input
+                        type="email"
+                        required
+                        className="input-field"
+                        placeholder="you@institution.edu"
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    />
+                </div>
+            </div>
+
+            <div style={{ marginBottom: "1rem" }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.5rem" }}>
+                    Organisation
+                </label>
+                <input
+                    type="text"
+                    required
+                    className="input-field"
+                    placeholder="University / Firm / Clinic"
+                    value={form.organisation}
+                    onChange={(e) => setForm({ ...form, organisation: e.target.value })}
+                />
+            </div>
+
+            <div style={{ marginBottom: "1rem" }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.5rem" }}>
+                    Enquiry Type
+                </label>
+                <select
+                    className="input-field"
+                    value={form.type}
+                    onChange={(e) => setForm({ ...form, type: e.target.value })}
+                    style={{ appearance: "none", cursor: "pointer", background: "var(--bg-card)", color: "var(--text-primary)" }}
+                >
+                    {enquiryTypes.map((t) => (
+                        <option key={t} value={t} style={{ background: "var(--bg-card)" }}>
+                            {t}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div style={{ marginBottom: "1.75rem" }}>
+                <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.5rem" }}>
+                    Message
+                </label>
+                <textarea
+                    required
+                    className="input-field"
+                    placeholder="Describe your enquiry, research interest, or partnership proposal..."
+                    rows={5}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    style={{ resize: "vertical", minHeight: "120px" }}
+                />
+            </div>
+
+            <button
+                type="submit"
+                className="btn-primary"
+                disabled={loading}
+                style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.5rem",
+                    opacity: loading ? 0.7 : 1,
+                    cursor: loading ? "not-allowed" : "pointer",
+                }}
+            >
+                {loading ? (
+                    <>
+                        <div style={{ width: "16px", height: "16px", borderRadius: "50%", border: "2px solid #0B0F19", borderTopColor: "transparent", animation: "spin 0.8s linear infinite" }} />
+                        Sending...
+                    </>
+                ) : (
+                    <>
+                        <Send size={15} />
+                        Send Enquiry
+                    </>
+                )}
+            </button>
+
+            <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: "1rem", textAlign: "center" }}>
+                Or email directly at{" "}
+                <a href="mailto:contact@matteralifesystems.com" style={{ color: "var(--accent-teal)", textDecoration: "none" }}>contact@matteralifesystems.com</a>
+            </p>
+
+            <style>{`
+                @keyframes spin { to { transform: rotate(360deg); } }
+                @media (max-width: 560px) { .form-split { grid-template-columns: 1fr !important; } }
+            `}</style>
+        </form>
+    );
+}

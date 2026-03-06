@@ -122,6 +122,58 @@ export default async function HomePage() {
     description: heroData?.description || "AI-driven infrastructure combining behavioral analytics, wearable sensors, and predictive modeling to enable continuous health monitoring across companion animals, working animals, and livestock populations.",
   };
 
+  // New Sections from Strapi
+  const vision = heroData?.vision_section || {
+    badge: "The Structural Gap",
+    title: "Animal Healthcare Remains Fundamentally Reactive",
+    description: "Diagnosis occurs after symptoms appear rather than before disease onset. The absence of continuous monitoring, longitudinal baselines, and integrated behavioral signals creates systemic blind spots across the entire animal health ecosystem.",
+    points: [
+      "Lack of longitudinal behavioral baselines",
+      "Absence of passive monitoring systems",
+      "Fragmented veterinary data ecosystems",
+      "Limited predictive disease modeling",
+      "Poor behavioral-physiological signal integration",
+    ],
+    cards: [
+      { label: "Current State", value: "Reactive Diagnosis", icon: "⚠" },
+      { label: "Missing Layer", value: "Intelligence Infrastructure", icon: "◎" },
+      { label: "Target State", value: "Predictive Health Monitoring", icon: "✓" },
+    ]
+  };
+
+  const platformContent = heroData?.platform_section || {
+    badge: "PawOS",
+    sub_badge: "Primary Platform",
+    title: "AI-Powered Animal Health Intelligence",
+    description: "PawOS is a longitudinal animal health intelligence system designed to transform observational health data into structured predictive analytics. Architected as a data infrastructure platform — not a consumer application.",
+    features: [
+      "Breed-specific baseline modeling",
+      "Longitudinal health scoring",
+      "Behavioral anomaly detection",
+      "Structured diet & activity mapping",
+      "Preventive health alerts",
+      "Environmental context modeling",
+    ],
+    metrics: [
+      { metric: "Health Score", value: "87 / 100", trend: "↑", color: "#4FD1C5" },
+      { metric: "Activity Baseline", value: "Normal", trend: "→", color: "#8FA7FF" },
+      { metric: "Sleep Quality", value: "Optimal", trend: "↑", color: "#4FD1C5" },
+      { metric: "Behavioral Anomaly", value: "None Detected", trend: "✓", color: "#8FA7FF" },
+      { metric: "Predictive Risk Index", value: "Low (0.12)", trend: "↓", color: "#4FD1C5" },
+    ]
+  };
+
+  const cta = heroData?.cta_section || {
+    badge: "Engage With Us",
+    title: "Partner in Building the Future of Animal Health Intelligence",
+    description: "Whether you are an investor, research institution, veterinary partner, or hardware developer — Mattera Life Systems is building the foundational infrastructure layer for animal health analytics.",
+    links: [
+      { label: "Investment Opportunities", href: "/investors", primary: true },
+      { label: "Research Collaboration", href: "/research-collaboration", primary: false },
+      { label: "Contact Us", href: "/contact", primary: false },
+    ]
+  };
+
   // Tech Pillars mapping
   const techPillars = techPillarsData?.length > 0
     ? techPillarsData.map((tp: any) => ({
@@ -337,24 +389,15 @@ export default async function HomePage() {
         <div className="section-container">
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }} className="grid-2col">
             <div>
-              <div className="tag-pill" style={{ marginBottom: "1.5rem" }}>The Structural Gap</div>
+              <div className="tag-pill" style={{ marginBottom: "1.5rem" }}>{vision.badge}</div>
               <h2 style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", marginBottom: "1.25rem" }}>
-                Animal Healthcare Remains{" "}
-                <span className="gradient-text">Fundamentally Reactive</span>
+                {vision.title}
               </h2>
               <p style={{ color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: "2rem" }}>
-                Diagnosis occurs after symptoms appear rather than before disease onset. The absence
-                of continuous monitoring, longitudinal baselines, and integrated behavioral signals
-                creates systemic blind spots across the entire animal health ecosystem.
+                {vision.description}
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                {[
-                  "Lack of longitudinal behavioral baselines",
-                  "Absence of passive monitoring systems",
-                  "Fragmented veterinary data ecosystems",
-                  "Limited predictive disease modeling",
-                  "Poor behavioral-physiological signal integration",
-                ].map((item) => (
+                {vision.points.map((item: string) => (
                   <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
                     <div
                       style={{
@@ -374,11 +417,7 @@ export default async function HomePage() {
 
             {/* Gap visualization cards */}
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              {[
-                { label: "Current State", value: "Reactive Diagnosis", icon: "⚠", color: "rgba(255,100,100,0.15)", border: "rgba(255,100,100,0.2)" },
-                { label: "Missing Layer", value: "Intelligence Infrastructure", icon: "◎", color: "rgba(79,209,197,0.08)", border: "rgba(79,209,197,0.2)" },
-                { label: "Target State", value: "Predictive Health Monitoring", icon: "✓", color: "rgba(143,167,255,0.08)", border: "rgba(143,167,255,0.2)" },
-              ].map((card) => (
+              {vision.cards.map((card: any) => (
                 <div
                   key={card.label}
                   className="glass-card"
@@ -491,27 +530,17 @@ export default async function HomePage() {
                   marginBottom: "1.5rem",
                 }}
               >
-                <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, color: "#4FD1C5", fontSize: "0.875rem" }}>PawOS</span>
-                <span style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Primary Platform</span>
+                <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, color: "#4FD1C5", fontSize: "0.875rem" }}>{platformContent.badge}</span>
+                <span style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em" }}>{platformContent.sub_badge}</span>
               </div>
               <h2 style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", marginBottom: "1.25rem" }}>
-                AI-Powered Animal{" "}
-                <span className="gradient-text">Health Intelligence</span>
+                {platformContent.title}
               </h2>
               <p style={{ color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: "2rem" }}>
-                PawOS is a longitudinal animal health intelligence system designed to transform
-                observational health data into structured predictive analytics. Architected as a
-                data infrastructure platform — not a consumer application.
+                {platformContent.description}
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.875rem", marginBottom: "2rem" }}>
-                {[
-                  "Breed-specific baseline modeling",
-                  "Longitudinal health scoring",
-                  "Behavioral anomaly detection",
-                  "Structured diet & activity mapping",
-                  "Preventive health alerts",
-                  "Environmental context modeling",
-                ].map((feat) => (
+                {platformContent.features.map((feat: string) => (
                   <div key={feat} style={{ display: "flex", alignItems: "flex-start", gap: "0.625rem" }}>
                     <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#4FD1C5", marginTop: "0.6rem", flexShrink: 0 }} />
                     <span style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>{feat}</span>
@@ -532,16 +561,10 @@ export default async function HomePage() {
             <div>
               <div className="glass-card animate-pulse-glow" style={{ padding: "2rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
-                  <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, color: "#4FD1C5", fontSize: "0.9rem" }}>PawOS — Health Intelligence</div>
+                  <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, color: "#4FD1C5", fontSize: "0.9rem" }}>{platformContent.badge} — Health Intelligence</div>
                   <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4FD1C5", boxShadow: "0 0 8px #4FD1C5" }} />
                 </div>
-                {[
-                  { metric: "Health Score", value: "87 / 100", trend: "↑", color: "#4FD1C5" },
-                  { metric: "Activity Baseline", value: "Normal", trend: "→", color: "#8FA7FF" },
-                  { metric: "Sleep Quality", value: "Optimal", trend: "↑", color: "#4FD1C5" },
-                  { metric: "Behavioral Anomaly", value: "None Detected", trend: "✓", color: "#8FA7FF" },
-                  { metric: "Predictive Risk Index", value: "Low (0.12)", trend: "↓", color: "#4FD1C5" },
-                ].map((row) => (
+                {platformContent.metrics.map((row: any) => (
                   <div
                     key={row.metric}
                     style={{
@@ -759,26 +782,24 @@ export default async function HomePage() {
               boxShadow: "0 0 80px var(--border-subtle)",
             }}
           >
-            <div className="tag-pill" style={{ marginBottom: "1.5rem" }}>Engage With Us</div>
+            <div className="tag-pill" style={{ marginBottom: "1.5rem" }}>{cta.badge}</div>
             <h2 style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", marginBottom: "1.25rem" }}>
-              Partner in Building the Future of{" "}
-              <span className="gradient-text">Animal Health Intelligence</span>
+              {cta.title}
             </h2>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.85, marginBottom: "2.5rem" }}>
-              Whether you are an investor, research institution, veterinary partner, or hardware
-              developer — Mattera Life Systems is building the foundational infrastructure layer for
-              animal health analytics.
+              {cta.description}
             </p>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center" }}>
-              <Link href="/investors" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                Investment Opportunities <ArrowRight size={15} />
-              </Link>
-              <Link href="/research-collaboration" className="btn-ghost" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                Research Collaboration <ArrowRight size={15} />
-              </Link>
-              <Link href="/contact" className="btn-ghost" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                Contact Us <ArrowRight size={15} />
-              </Link>
+              {cta.links.map((link: any) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={link.primary ? "btn-primary" : "btn-ghost"}
+                  style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+                >
+                  {link.label} <ArrowRight size={15} />
+                </Link>
+              ))}
             </div>
           </div>
         </div>

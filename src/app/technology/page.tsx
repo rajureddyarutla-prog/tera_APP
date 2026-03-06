@@ -56,6 +56,14 @@ export default async function TechnologyPage() {
     ];
     const tech_layers: TechLayer[] = data?.tech_layers || [];
 
+    // New CTA Section from Strapi
+    const cta = data?.cta_section || {
+        title: "Advancing Animal Intelligence Research",
+        description: "Mattera's technology stack is continuously evolving through academic partnerships and longitudinal health studies.",
+        cta_label: "Research Collaboration",
+        cta_href: "/research-collaboration"
+    };
+
     return (
         <div style={{ background: "var(--bg-primary)" }}>
             {/* Hero */}
@@ -138,13 +146,13 @@ export default async function TechnologyPage() {
             <section className="section-pad" style={{ textAlign: "center", borderTop: "1px solid var(--border-subtle)" }}>
                 <div className="section-container">
                     <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", marginBottom: "1.5rem" }}>
-                        Advancing <span className="gradient-text">Animal Intelligence Research</span>
+                        {cta.title}
                     </h2>
                     <p style={{ color: "var(--text-secondary)", marginBottom: "2rem", maxWidth: "600px", margin: "0 auto 2rem" }}>
-                        Mattera's technology stack is continuously evolving through academic partnerships and longitudinal health studies.
+                        {cta.description}
                     </p>
-                    <Link href="/research-collaboration" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                        Research Collaboration <ArrowRight size={15} />
+                    <Link href={cta.cta_href} className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                        {cta.cta_label} <ArrowRight size={15} />
                     </Link>
                 </div>
             </section>

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Link from "next/link";
 import { ExternalLink, Mail, MapPin } from "lucide-react";
 
@@ -15,9 +17,20 @@ interface FooterColumn {
 
 interface NavData {
     footer_columns: FooterColumn[];
+    logo_image?: {
+        url: string;
+        name: string;
+    };
 }
 
 export default function Footer({ navData }: { navData?: NavData }) {
+    const [logoError, setLogoError] = useState(false);
+
+    const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '');
+    const logoSrc = navData?.logo_image?.url
+        ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
+        : null;
+
     const columns = navData?.footer_columns || [
         {
             title: "Technology",
@@ -77,30 +90,52 @@ export default function Footer({ navData }: { navData?: NavData }) {
                     {/* Brand column */}
                     <div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-                            <div
-                                style={{
-                                    width: "40px",
-                                    height: "40px",
-                                    background: "linear-gradient(135deg, #4FD1C5, #8FA7FF)",
-                                    borderRadius: "10px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
-                                    <path d="M10 2L18 6V14L10 18L2 14V6L10 2Z" stroke="#0B0F19" strokeWidth="1.5" strokeLinejoin="round" />
-                                    <path d="M10 6V14M6 8L14 12M14 8L6 12" stroke="#0B0F19" strokeWidth="1.5" strokeLinecap="round" />
-                                </svg>
-                            </div>
-                            <div>
-                                <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>
-                                    Mattera Life Systems
+                            {logoSrc && !logoError ? (
+                                <img
+                                    src={logoSrc}
+                                    alt="Mattera Life Systems Logo"
+                                    style={{
+                                        height: "40px",
+                                        width: "auto",
+                                        objectFit: "contain",
+                                        borderRadius: "4px"
+                                    }}
+                                    onError={() => setLogoError(true)}
+                                />
+                            ) : (
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.75rem'
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: "40px",
+                                            height: "40px",
+                                            background: "linear-gradient(135deg, #4FD1C5, #8FA7FF)",
+                                            borderRadius: "10px",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+                                            <path d="M10 2L18 6V14L10 18L2 14V6L10 2Z" stroke="#0B0F19" strokeWidth="1.5" strokeLinejoin="round" />
+                                            <path d="M10 6V14M6 8L14 12M14 8L6 12" stroke="#0B0F19" strokeWidth="1.5" strokeLinecap="round" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>
+                                            Mattera Life Systems
+                                        </div>
+                                        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.7rem", color: "var(--accent-teal)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                                            Private Limited
+                                        </div>
+                                    </div>
                                 </div>
-                                <div style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.7rem", color: "var(--accent-teal)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                                    Private Limited
-                                </div>
-                            </div>
+                            )}
                         </div>
                         <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: "300px" }}>
                             Engineering predictive health intelligence infrastructure for animals across species and environments.

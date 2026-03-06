@@ -30,6 +30,16 @@ export default async function ApplicationsPage() {
     const title = data?.title || "Cross-Segment Real-World Applications";
     const description = data?.description || "Mattera's intelligence infrastructure serves four distinct segments — delivering precision health monitoring across companion animals, veterinary clinics, livestock operations, and performance animals.";
 
+    // New CTA Section from Strapi
+    const cta = data?.cta_section || {
+        title: "Explore the Platform Enabling These Applications",
+        description: "PawOS is the live intelligence platform powering all application segments.",
+        links: [
+            { label: "Platform Details", href: "/platform", primary: true },
+            { label: "Partnership Enquiry", href: "/contact", primary: false },
+        ]
+    };
+
     const applications: Application[] = data?.applications || [
         {
             id: "companion",
@@ -191,18 +201,22 @@ export default async function ApplicationsPage() {
             <section className="section-pad" style={{ textAlign: "center" }}>
                 <div className="section-container">
                     <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", marginBottom: "1rem" }}>
-                        Explore the <span className="gradient-text">Platform Enabling These Applications</span>
+                        {cta.title}
                     </h2>
                     <p style={{ color: "var(--text-secondary)", marginBottom: "2rem", maxWidth: "500px", margin: "0 auto 2rem" }}>
-                        PawOS is the live intelligence platform powering all application segments.
+                        {cta.description}
                     </p>
                     <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-                        <Link href="/platform" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                            Platform Details <ArrowRight size={15} />
-                        </Link>
-                        <Link href="/contact" className="btn-ghost" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                            Partnership Enquiry <ArrowRight size={15} />
-                        </Link>
+                        {cta.links.map((link: any) => (
+                            <Link
+                                key={link.label}
+                                href={link.href}
+                                className={link.primary ? "btn-primary" : "btn-ghost"}
+                                style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+                            >
+                                {link.label} <ArrowRight size={15} />
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </section>

@@ -40,6 +40,12 @@ export default async function ResearchCollaborationPage() {
     const title = data?.title || "Research Partnerships & Grant Programs";
     const description = data?.description || "Mattera Life Systems actively seeks research collaborations with veterinary institutions, agricultural universities, and AI research labs — and is eligible for and pursuing grant funding across AI, veterinary science, and precision agriculture domains.";
 
+    // New Roadmap Section from Strapi
+    const roadmap = data?.roadmap_section || {
+        badge: "Roadmap",
+        title: "Scientific Validation Pathways"
+    };
+
     const partner_categories: PartnerCategory[] = data?.partner_categories || [
         { title: "Veterinary Academic Institutions", desc: "Collaboration with veterinary schools on clinical validation studies, behavioral dataset development, and research methodology peer review.", color: "#4FD1C5" },
         { title: "Agricultural Universities", desc: "Research partnerships on livestock health monitoring, precision farming analytics, and population-scale animal behavioral studies.", color: "#8FA7FF" },
@@ -140,8 +146,8 @@ export default async function ResearchCollaborationPage() {
             <section className="section-pad">
                 <div className="section-container">
                     <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-                        <div className="tag-pill" style={{ marginBottom: "1rem" }}>Roadmap</div>
-                        <h2 style={{ fontSize: "clamp(1.75rem, 3vw, 2.25rem)" }}>Scientific Validation <span className="gradient-text">Pathways</span></h2>
+                        <div className="tag-pill" style={{ marginBottom: "1rem" }}>{roadmap.badge}</div>
+                        <h2 style={{ fontSize: "clamp(1.75rem, 3vw, 2.25rem)" }}>{roadmap.title}</h2>
                     </div>
 
                     <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: "5rem" }} className="validation-grid">

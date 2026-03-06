@@ -54,7 +54,7 @@ export const metadata: Metadata = {
       "AI-powered health intelligence infrastructure for animals — wearable sensors, behavioral analytics, and predictive diagnostics.",
     images: [
       {
-        url: "/og-image.png",
+        url: "mattera.png",
         width: 1200,
         height: 630,
         alt: "Mattera Life Systems",

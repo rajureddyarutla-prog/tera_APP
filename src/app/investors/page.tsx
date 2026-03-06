@@ -88,6 +88,26 @@ export default async function InvestorsPage() {
         { phase: "Phase 4", title: "Global Research Network", desc: "International collaborations and data partnerships", color: "#8FA7FF" },
     ];
 
+    // New Sections from Strapi
+    const marketOpportunity = data?.market_opportunity_section || {
+        badge: "Market Opportunity",
+        title: "Macro Drivers in Animal Healthcare",
+        description: "We are at the convergence of rising animal health spend, pet humanization, and a lack of structured longitudinal health intelligence."
+    };
+
+    const ipStrategy = data?.ip_strategy_section || {
+        title: "IP / R&D Roadmap",
+        strategy_label: "IP Strategy:",
+        strategy_text: "Accumulating defensive trade secrets across behavioral datasets and filing utility patents for novel anomaly detection methodologies."
+    };
+
+    const cta = data?.cta_section || {
+        title: "Investment Enquiries",
+        description: "We are currently open to discussions with venture capital and strategic partners aligned with our mission to build critical animal health infrastructure.",
+        cta_label: "Get in Touch",
+        cta_href: "/contact"
+    };
+
     return (
         <div style={{ background: "var(--bg-primary)" }}>
             {/* Hero */}
@@ -118,10 +138,10 @@ export default async function InvestorsPage() {
                 <div className="section-container">
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "5rem", alignItems: "center" }} className="driver-grid">
                         <div>
-                            <div className="tag-pill" style={{ marginBottom: "1rem" }}>Market Opportunity</div>
-                            <h2 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>Macro Drivers in <span className="gradient-text">Animal Healthcare</span></h2>
+                            <div className="tag-pill" style={{ marginBottom: "1rem" }}>{marketOpportunity.badge}</div>
+                            <h2 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>{marketOpportunity.title}</h2>
                             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8 }}>
-                                We are at the convergence of rising animal health spend, pet humanization, and a lack of structured longitudinal health intelligence.
+                                {marketOpportunity.description}
                             </p>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="check-grid">
@@ -186,7 +206,7 @@ export default async function InvestorsPage() {
                         <div className="glass-card" style={{ padding: "3rem" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
                                 <ScrollText style={{ color: "#8FA7FF" }} />
-                                <h3 style={{ fontSize: "1.25rem" }}>IP / R&D Roadmap</h3>
+                                <h3 style={{ fontSize: "1.25rem" }}>{ipStrategy.title}</h3>
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                                 {ip_roadmap.map((ip) => (
@@ -197,7 +217,7 @@ export default async function InvestorsPage() {
                                 ))}
                             </div>
                             <div style={{ marginTop: "2.5rem", padding: "1.25rem", background: "var(--bg-pill)", borderRadius: "8px", border: "1px solid var(--border-subtle)", fontSize: "0.75rem", color: "var(--accent-teal)", lineHeight: 1.6 }}>
-                                <strong>IP Strategy:</strong> Accumulating defensive trade secrets across behavioral datasets and filing utility patents for novel anomaly detection methodologies.
+                                <strong>{ipStrategy.strategy_label}</strong> {ipStrategy.strategy_text}
                             </div>
                         </div>
                     </div>
@@ -229,14 +249,13 @@ export default async function InvestorsPage() {
             <section className="section-pad" style={{ textAlign: "center" }}>
                 <div className="section-container">
                     <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", marginBottom: "1.5rem" }}>
-                        Investment <span className="gradient-text">Enquiries</span>
+                        {cta.title}
                     </h2>
                     <p style={{ color: "var(--text-secondary)", marginBottom: "2.5rem", maxWidth: "600px", margin: "0 auto 2.5rem" }}>
-                        We are currently open to discussions with venture capital and strategic partners aligned with our
-                        mission to build critical animal health infrastructure.
+                        {cta.description}
                     </p>
-                    <Link href="/contact" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                        Get in Touch <ArrowRight size={15} />
+                    <Link href={cta.cta_href} className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                        {cta.cta_label} <ArrowRight size={15} />
                     </Link>
                 </div>
             </section>

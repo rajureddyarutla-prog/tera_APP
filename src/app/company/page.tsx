@@ -69,6 +69,20 @@ export default async function CompanyPage() {
 
     const locations: LocationBox[] = data?.locations || [];
 
+    // New Careers Section from Strapi
+    const careers = data?.careers_section || {
+        title: "Careers at Mattera",
+        description: "We are occasionally looking for deep-tech researchers and engineering talent. Send your credentials to contact@matteralifesystems.com",
+        cta_label: "Get in Touch",
+        cta_href: "mailto:contact@matteralifesystems.com"
+    };
+
+    // New Values Section Heading from Strapi
+    const ethos = data?.values_section || {
+        badge: "Core Principles",
+        title: "The Mattera Ethos"
+    };
+
     return (
         <div style={{ background: "var(--bg-primary)" }}>
             {/* Hero */}
@@ -134,8 +148,8 @@ export default async function CompanyPage() {
             <section className="section-pad">
                 <div className="section-container">
                     <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-                        <div className="tag-pill" style={{ marginBottom: "1rem" }}>Core Principles</div>
-                        <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>The Mattera <span className="gradient-text">Ethos</span></h2>
+                        <div className="tag-pill" style={{ marginBottom: "1rem" }}>{ethos.badge}</div>
+                        <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>{ethos.title}</h2>
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }} className="values-grid">
                         {values.map((v) => (
@@ -179,16 +193,15 @@ export default async function CompanyPage() {
                 <style>{`@media (max-width: 800px) { .presence-grid { grid-template-columns: 1fr !important; } }`}</style>
             </section>
 
-            {/* Careers Placeholder */}
+            {/* Careers */}
             <section className="section-pad" style={{ textAlign: "center" }}>
                 <div className="section-container">
                     <div className="glass-card" style={{ padding: "4rem 2rem", background: "var(--bg-subtle)" }}>
-                        <h2 style={{ marginBottom: "1rem" }}>Careers at <span className="gradient-text">Mattera</span></h2>
+                        <h2 style={{ marginBottom: "1rem" }}>{careers.title}</h2>
                         <p style={{ color: "var(--text-secondary)", maxWidth: "500px", margin: "0 auto 2rem" }}>
-                            We are occasionally looking for deep-tech researchers and engineering talent.
-                            Send your credentials to <strong style={{ color: "var(--accent-teal)" }}>contact@matteralifesystems.com</strong>
+                            {careers.description}
                         </p>
-                        <a href="mailto:contact@matteralifesystems.com" className="btn-primary">Get in Touch</a>
+                        <a href={careers.cta_href} className="btn-primary">{careers.cta_label}</a>
                     </div>
                 </div>
             </section>

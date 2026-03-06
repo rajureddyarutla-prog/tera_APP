@@ -95,6 +95,12 @@ export default async function ResearchPage() {
         { label: "Multi-Signal Validation", color: "#8FA7FF" },
     ];
 
+    // New Publications Section from Strapi
+    const publications = data?.publications_section || {
+        title: "Academic Publications",
+        description: "Our research group is currently preparing longitudinal behavioral studies for peer review. Publications will be listed here as they are released."
+    };
+
     return (
         <div style={{ background: "var(--bg-primary)" }}>
             {/* Hero */}
@@ -198,15 +204,14 @@ export default async function ResearchPage() {
                 <style>{` @media (max-width: 1000px) { .studies-grid { grid-template-columns: 1fr 1fr !important; } } @media (max-width: 640px) { .studies-grid { grid-template-columns: 1fr !important; } } `}</style>
             </section>
 
-            {/* Publications Placeholder */}
+            {/* Publications */}
             <section className="section-pad">
                 <div className="section-container">
                     <div className="glass-card" style={{ padding: "4rem", textAlign: "center", border: "1px dashed var(--border-subtle)" }}>
                         <FlaskConical size={32} style={{ color: "#4FD1C5", marginBottom: "1.5rem" }} />
-                        <h2 style={{ marginBottom: "1rem" }}>Academic Publications</h2>
+                        <h2 style={{ marginBottom: "1rem" }}>{publications.title}</h2>
                         <p style={{ color: "var(--text-secondary)", maxWidth: "500px", margin: "0 auto" }}>
-                            Our research group is currently preparing longitudinal behavioral studies for peer review.
-                            Publications will be listed here as they are released.
+                            {publications.description}
                         </p>
                     </div>
                 </div>

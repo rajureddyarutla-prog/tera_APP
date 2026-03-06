@@ -13,6 +13,10 @@ interface NavLink {
 interface NavData {
     logo_text_top: string;
     logo_text_bottom: string;
+    logo_image?: {
+        url: string;
+        name: string;
+    };
     nav_links: NavLink[];
     cta_text: string;
     cta_href: string;
@@ -26,10 +30,17 @@ interface NavData {
 export default function Navbar({ navData }: { navData?: NavData }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [logoError, setLogoError] = useState(false);
     const pathname = usePathname();
 
     const logoTop = navData?.logo_text_top || "Mattera";
     const logoBottom = navData?.logo_text_bottom || "Life Systems";
+
+    const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '');
+    const logoSrc = navData?.logo_image?.url
+        ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
+        : null;
+
     const links = navData?.nav_links || [
         { label: "Home", href: "/" },
         { label: "Technology", href: "/technology" },
@@ -111,32 +122,54 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                 >
                     {/* Logo */}
                     <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                        {/* Logo mark */}
-                        <div
-                            style={{
-                                width: "36px",
-                                height: "36px",
-                                background: "linear-gradient(135deg, #4FD1C5, #8FA7FF)",
-                                borderRadius: "8px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                            }}
-                        >
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M10 2L18 6V14L10 18L2 14V6L10 2Z" stroke="#0B0F19" strokeWidth="1.5" strokeLinejoin="round" />
-                                <path d="M10 6V14M6 8L14 12M14 8L6 12" stroke="#0B0F19" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
-                        </div>
-                        <div>
-                            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1rem", color: "var(--text-primary)", lineHeight: 1.1 }}>
-                                {logoTop}
+                        {logoSrc && !logoError ? (
+                            <img
+                                src={logoSrc}
+                                alt="Mattera Life Systems Logo"
+                                style={{
+                                    height: "40px",
+                                    width: "auto",
+                                    objectFit: "contain",
+                                    borderRadius: "4px"
+                                }}
+                                onError={() => setLogoError(true)}
+                            />
+                        ) : (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.75rem'
+                                }}
+                            >
+                                {/* Logo mark icon */}
+                                <div
+                                    style={{
+                                        width: "36px",
+                                        height: "36px",
+                                        background: "linear-gradient(135deg, #4FD1C5, #8FA7FF)",
+                                        borderRadius: "8px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        flexShrink: 0,
+                                    }}
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M10 2L18 6V14L10 18L2 14V6L10 2Z" stroke="#0B0F19" strokeWidth="1.5" strokeLinejoin="round" />
+                                        <path d="M10 6V14M6 8L14 12M14 8L6 12" stroke="#0B0F19" strokeWidth="1.5" strokeLinecap="round" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1rem", color: "var(--text-primary)", lineHeight: 1.1 }}>
+                                        {logoTop}
+                                    </div>
+                                    <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "0.625rem", color: "var(--accent-teal)", letterSpacing: "0.15em", textTransform: "uppercase", lineHeight: 1.2 }}>
+                                        {logoBottom}
+                                    </div>
+                                </div>
                             </div>
-                            <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "0.625rem", color: "var(--accent-teal)", letterSpacing: "0.15em", textTransform: "uppercase", lineHeight: 1.2 }}>
-                                {logoBottom}
-                            </div>
-                        </div>
+                        )}
                     </Link>
 
                     {/* Desktop Nav */}
