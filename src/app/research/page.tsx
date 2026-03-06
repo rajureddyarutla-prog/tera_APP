@@ -130,41 +130,80 @@ export default async function ResearchPage() {
 
                     <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
                         {research_areas.map((area) => (
-                            <div key={area.id} id={area.id} className="glass-card" style={{ padding: "3.5rem" }}>
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: "4rem" }} className="area-detail-grid">
-                                    <div>
-                                        <div className="tag-pill" style={{ color: area.color, borderColor: "var(--border-subtle)", background: "var(--bg-pill)", marginBottom: "1.5rem" }}>{area.tag} Research</div>
-                                        <h2 style={{ fontSize: "1.75rem", marginBottom: "1.25rem", color: "var(--text-primary)" }}>{area.title}</h2>
-                                        <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: 1.7, marginBottom: "2rem" }}>
-                                            <strong style={{ color: "var(--text-primary)", display: "block", marginBottom: "0.5rem" }}>Core Objective:</strong>
-                                            {area.objective}
-                                        </p>
-                                    </div>
-                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+                            <div key={area.id} style={{ display: "contents" }}>
+                                <div id={area.id} className="glass-card" style={{ padding: "3.5rem" }}>
+                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: "4rem" }} className="area-detail-grid">
                                         <div>
-                                            <h4 style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", color: area.color, marginBottom: "1rem" }}>Methodology</h4>
-                                            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                                                {area.methodology.map(m => (
-                                                    <li key={m} style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
-                                                        <div style={{ minWidth: "4px", height: "4px", borderRadius: "50%", background: area.color, marginTop: "0.5rem" }} />
-                                                        {m}
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                            <div className="tag-pill" style={{ color: area.color, borderColor: "var(--border-subtle)", background: "var(--bg-pill)", marginBottom: "1.5rem" }}>{area.tag} Research</div>
+                                            <h2 style={{ fontSize: "1.75rem", marginBottom: "1.25rem", color: "var(--text-primary)" }}>{area.title}</h2>
+                                            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: 1.7, marginBottom: "2rem" }}>
+                                                <strong style={{ color: "var(--text-primary)", display: "block", marginBottom: "0.5rem" }}>Core Objective:</strong>
+                                                {area.objective}
+                                            </p>
                                         </div>
-                                        <div>
-                                            <h4 style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", color: area.color, marginBottom: "1rem" }}>Health Applications</h4>
-                                            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                                                {area.applications.map(a => (
-                                                    <li key={a} style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
-                                                        <div style={{ minWidth: "4px", height: "4px", borderRadius: "50%", background: area.color, marginTop: "0.5rem" }} />
-                                                        {a}
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+                                            <div>
+                                                <h4 style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", color: area.color, marginBottom: "1rem" }}>Methodology</h4>
+                                                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                                                    {area.methodology.map(m => (
+                                                        <li key={m} style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
+                                                            <div style={{ minWidth: "4px", height: "4px", borderRadius: "50%", background: area.color, marginTop: "0.5rem" }} />
+                                                            {m}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <h4 style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", color: area.color, marginBottom: "1rem" }}>Health Applications</h4>
+                                                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                                                    {area.applications.map(a => (
+                                                        <li key={a} style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", display: "flex", gap: "0.5rem" }}>
+                                                            <div style={{ minWidth: "4px", height: "4px", borderRadius: "50%", background: area.color, marginTop: "0.5rem" }} />
+                                                            {a}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                {area.id === "wearable" && (
+                                    <div className="glass-card animate-pulse-glow" style={{ padding: "3.5rem", border: "1px solid rgba(143, 167, 255, 0.25)" }}>
+                                        <h3 style={{ fontSize: "1.5rem", marginBottom: "1.5rem", color: "var(--text-primary)" }}>Wearable Health Monitoring Hardware</h3>
+                                        <div style={{ color: "var(--text-secondary)", fontSize: "0.9375rem", lineHeight: 1.85, display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                                            <p>Mattera Life Systems is developing a wearable hardware layer designed to enable continuous monitoring of physiological and behavioral signals in animals.</p>
+                                            <p>These devices function as passive health monitoring systems that collect vital health indicators and movement data without disrupting natural animal behavior. The hardware platform is designed to integrate directly with the PawOS intelligence system, allowing sensor signals to be processed into structured health analytics and predictive risk indicators.</p>
+
+                                            <div style={{
+                                                background: "rgba(143, 167, 255, 0.05)",
+                                                padding: "1.5rem",
+                                                borderRadius: "12px",
+                                                border: "1px solid rgba(143, 167, 255, 0.15)"
+                                            }}>
+                                                <div style={{ fontWeight: 600, color: "var(--text-primary)", marginBottom: "1rem", fontSize: "0.875rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Primary monitoring capabilities include:</div>
+                                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem 1.5rem" }} className="capabilities-grid">
+                                                    {[
+                                                        "Step count and activity intensity tracking",
+                                                        "Movement pattern analysis",
+                                                        "Rest cycle monitoring",
+                                                        "Behavioral variability detection",
+                                                        "Body temperature monitoring",
+                                                        "Heart rate variability (future capability)",
+                                                        "Respiration pattern monitoring (future capability)"
+                                                    ].map(item => (
+                                                        <div key={item} style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontSize: "0.875rem" }}>
+                                                            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#8FA7FF", flexShrink: 0 }} />
+                                                            <span>{item}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <p>By capturing continuous behavioral and physiological signals, Mattera wearable devices enable the creation of longitudinal health datasets that support early disease detection and predictive veterinary analytics. This hardware layer forms a critical component of the Mattera health intelligence infrastructure, bridging real-world biological signals with AI-driven health models.</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
