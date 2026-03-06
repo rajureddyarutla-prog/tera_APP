@@ -6,6 +6,9 @@
   --bg-secondary: #0F1525;
   --bg-card: #131929;
   --bg-card-hover: #182035;
+  --bg-subtle: rgba(255, 255, 255, 0.03);
+  --bg-overlay: rgba(11, 15, 25, 0.8);
+  --bg-pill: rgba(79, 209, 197, 0.08);
   --accent-teal: #4FD1C5;
   --accent-teal-dim: #3bb8ac;
   --accent-blue: #8FA7FF;
@@ -17,6 +20,23 @@
   --border-card: rgba(143, 167, 255, 0.1);
   --glow-teal: 0 0 40px rgba(79, 209, 197, 0.15);
   --glow-blue: 0 0 40px rgba(143, 167, 255, 0.12);
+}
+
+[data-theme='light'] {
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --bg-subtle: rgba(0, 0, 0, 0.03);
+  --bg-overlay: rgba(255, 255, 255, 0.9);
+  --bg-pill: rgba(0, 0, 0, 0.05);
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-card: rgba(15, 23, 42, 0.1);
+  --glow-teal: 0 10px 30px rgba(79, 209, 197, 0.12);
+  --glow-blue: 0 10px 30px rgba(143, 167, 255, 0.1);
 }
 
 * {
@@ -38,6 +58,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Typography */
@@ -101,7 +122,7 @@ h6 {
 
 /* Utility: Glassmorphism card */
 .glass-card {
-  background: rgba(19, 25, 41, 0.7);
+  background: var(--bg-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-card);
@@ -110,8 +131,8 @@ h6 {
 }
 
 .glass-card:hover {
-  background: rgba(24, 32, 53, 0.85);
-  border-color: rgba(79, 209, 197, 0.25);
+  background: var(--bg-card-hover);
+  border-color: var(--accent-teal);
   transform: translateY(-2px);
   box-shadow: var(--glow-teal);
 }
@@ -327,8 +348,8 @@ h6 {
 /* Input styles */
 .input-field {
   width: 100%;
-  background: rgba(19, 25, 41, 0.8);
-  border: 1px solid rgba(143, 167, 255, 0.15);
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
   border-radius: 10px;
   padding: 0.875rem 1.25rem;
   color: var(--text-primary);
@@ -343,8 +364,8 @@ h6 {
 }
 
 .input-field:focus {
-  border-color: rgba(79, 209, 197, 0.45);
-  background: rgba(19, 25, 41, 1);
+  border-color: var(--accent-teal);
+  background: var(--bg-primary);
   box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.08);
 }
 

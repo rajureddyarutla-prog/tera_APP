@@ -3,7 +3,9 @@ import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ThemeToggle from "@/components/ThemeToggle";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { fetchStrapi } from "@/lib/strapi";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -18,6 +20,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
+  // ... existing metadata
   title: {
     default: "AI Animal Health Platform | Predictive Veterinary Intelligence | Mattera Life Systems",
     template: "%s | Mattera Life Systems",
@@ -75,18 +78,26 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let navData = null;
+  try {
+    navData = await fetchStrapi('navigation');
+  } catch (err) {
+    console.error('Layout: Failed to fetch navigation', err);
+  }
+
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
       <body className="antialiased">
         <GoogleAnalytics />
-        <Navbar />
+        <Navbar navData={navData} />
         <main>{children}</main>
-        <Footer />
+        <Footer navData={navData} />
+        <ThemeToggle />
       </body>
     </html>
   );

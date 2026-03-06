@@ -5,22 +5,45 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ExternalLink } from "lucide-react";
 
-const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "Technology", href: "/technology" },
-    { label: "Research", href: "/research" },
-    { label: "Platform", href: "/platform" },
-    { label: "Applications", href: "/applications" },
-    { label: "Investors", href: "/investors" },
-    { label: "Grants", href: "/research-collaboration" },
-    { label: "Company", href: "/company" },
-    { label: "Contact", href: "/contact" },
-];
+interface NavLink {
+    label: string;
+    href: string;
+}
 
-export default function Navbar() {
+interface NavData {
+    logo_text_top: string;
+    logo_text_bottom: string;
+    nav_links: NavLink[];
+    cta_text: string;
+    cta_href: string;
+    notification?: {
+        enabled: boolean;
+        text: string;
+        color: string;
+    };
+}
+
+export default function Navbar({ navData }: { navData?: NavData }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const pathname = usePathname();
+
+    const logoTop = navData?.logo_text_top || "Mattera";
+    const logoBottom = navData?.logo_text_bottom || "Life Systems";
+    const links = navData?.nav_links || [
+        { label: "Home", href: "/" },
+        { label: "Technology", href: "/technology" },
+        { label: "Research", href: "/research" },
+        { label: "Platform", href: "/platform" },
+        { label: "Applications", href: "/applications" },
+        { label: "Investors", href: "/investors" },
+        { label: "Grants", href: "/research-collaboration" },
+        { label: "Company", href: "/company" },
+        { label: "Contact", href: "/contact" },
+    ];
+    const ctaText = navData?.cta_text || "Access PawOS";
+    const ctaHref = navData?.cta_href || "https://pawos.app";
+    const notification = navData?.notification;
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -35,23 +58,46 @@ export default function Navbar() {
 
     return (
         <>
+            {/* Notification Bar */}
+            {notification?.enabled && (
+                <div style={{
+                    background: `${notification.color}20`,
+                    backdropFilter: "blur(12px)",
+                    borderBottom: `1px solid ${notification.color}30`,
+                    padding: "0.5rem",
+                    textAlign: "center",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    color: notification.color,
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 1001,
+                    letterSpacing: "0.05em",
+                    textTransform: "uppercase"
+                }}>
+                    {notification.text}
+                </div>
+            )}
+
             <header
                 style={{
                     position: "fixed",
-                    top: 0,
+                    top: notification?.enabled ? "33px" : 0,
                     left: 0,
                     right: 0,
                     zIndex: 1000,
                     transition: "all 0.3s ease",
                     background: scrolled
-                        ? "rgba(11, 15, 25, 0.92)"
-                        : "rgba(11, 15, 25, 0.6)",
+                        ? "var(--bg-primary)"
+                        : "transparent",
                     backdropFilter: "blur(16px)",
                     WebkitBackdropFilter: "blur(16px)",
                     borderBottom: scrolled
-                        ? "1px solid rgba(79, 209, 197, 0.12)"
+                        ? "1px solid var(--border-subtle)"
                         : "1px solid transparent",
-                    boxShadow: scrolled ? "0 4px 32px rgba(0,0,0,0.4)" : "none",
+                    boxShadow: scrolled ? "0 4px 32px rgba(0,0,0,0.1)" : "none",
                 }}
             >
                 <div
@@ -84,18 +130,18 @@ export default function Navbar() {
                             </svg>
                         </div>
                         <div>
-                            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1rem", color: "#F0F4FF", lineHeight: 1.1 }}>
-                                Mattera
+                            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1rem", color: "var(--text-primary)", lineHeight: 1.1 }}>
+                                {logoTop}
                             </div>
-                            <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "0.625rem", color: "#4FD1C5", letterSpacing: "0.15em", textTransform: "uppercase", lineHeight: 1.2 }}>
-                                Life Systems
+                            <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "0.625rem", color: "var(--accent-teal)", letterSpacing: "0.15em", textTransform: "uppercase", lineHeight: 1.2 }}>
+                                {logoBottom}
                             </div>
                         </div>
                     </Link>
 
                     {/* Desktop Nav */}
                     <nav style={{ display: "flex", alignItems: "center", gap: "0.125rem" }} className="hidden-mobile">
-                        {navLinks.map((link) => {
+                        {links.map((link) => {
                             const active = pathname === link.href;
                             return (
                                 <Link
@@ -105,7 +151,7 @@ export default function Navbar() {
                                         fontFamily: "'Inter', sans-serif",
                                         fontWeight: 500,
                                         fontSize: "0.8125rem",
-                                        color: active ? "#4FD1C5" : "#9BAACF",
+                                        color: active ? "var(--accent-teal)" : "var(--text-secondary)",
                                         textDecoration: "none",
                                         padding: "0.5rem 0.875rem",
                                         borderRadius: "6px",
@@ -115,13 +161,13 @@ export default function Navbar() {
                                     }}
                                     onMouseEnter={(e) => {
                                         if (!active) {
-                                            (e.target as HTMLElement).style.color = "#F0F4FF";
-                                            (e.target as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+                                            (e.target as HTMLElement).style.color = "var(--text-primary)";
+                                            (e.target as HTMLElement).style.background = "var(--border-subtle)";
                                         }
                                     }}
                                     onMouseLeave={(e) => {
                                         if (!active) {
-                                            (e.target as HTMLElement).style.color = "#9BAACF";
+                                            (e.target as HTMLElement).style.color = "var(--text-secondary)";
                                             (e.target as HTMLElement).style.background = "transparent";
                                         }
                                     }}
@@ -135,13 +181,13 @@ export default function Navbar() {
                     {/* CTA + Mobile toggle */}
                     <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                         <a
-                            href="https://pawos.app"
+                            href={ctaHref}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary hidden-mobile"
                             style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontSize: "0.8125rem", padding: "0.625rem 1.25rem" }}
                         >
-                            Access PawOS
+                            {ctaText}
                             <ExternalLink size={13} />
                         </a>
 
@@ -173,12 +219,12 @@ export default function Navbar() {
             <div
                 style={{
                     position: "fixed",
-                    top: "72px",
+                    top: notification?.enabled ? "105px" : "72px",
                     left: 0,
                     right: 0,
                     bottom: 0,
                     zIndex: 999,
-                    background: "rgba(11, 15, 25, 0.98)",
+                    background: "var(--bg-primary)",
                     backdropFilter: "blur(20px)",
                     transform: mobileOpen ? "translateX(0)" : "translateX(100%)",
                     transition: "transform 0.35s cubic-bezier(0.77, 0, 0.175, 1)",
@@ -189,7 +235,7 @@ export default function Navbar() {
                     overflowY: "auto",
                 }}
             >
-                {navLinks.map((link, i) => {
+                {links.map((link, i) => {
                     const active = pathname === link.href;
                     return (
                         <Link
@@ -214,18 +260,18 @@ export default function Navbar() {
                     );
                 })}
                 <a
-                    href="https://pawos.app"
+                    href={ctaHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-primary"
                     style={{ marginTop: "1.5rem", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
                 >
-                    Access PawOS <ExternalLink size={14} />
+                    {ctaText} <ExternalLink size={14} />
                 </a>
             </div>
 
             {/* Spacer for fixed nav */}
-            <div style={{ height: "72px" }} />
+            <div style={{ height: notification?.enabled ? "105px" : "72px" }} />
 
             <style>{`
         @media (max-width: 900px) {

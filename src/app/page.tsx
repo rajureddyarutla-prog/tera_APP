@@ -1,6 +1,38 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ExternalLink, ArrowRight, Activity, Brain, Cpu, Database, Shield, Globe } from "lucide-react";
+import { ExternalLink, ArrowRight, Activity, Brain, Cpu, Database, Shield, Globe, LucideIcon } from "lucide-react";
+import { fetchStrapi } from "@/lib/strapi";
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  Activity, Brain, Cpu, Database, Shield, Globe
+};
+
+interface TechPillar {
+  label: string;
+  color: string;
+  icon: LucideIcon;
+}
+
+interface UseCase {
+  segment: string;
+  tag: string;
+  color: string;
+  items: string[];
+  desc: string;
+}
+
+interface ResearchStudy {
+  display_id: string;
+  title: string;
+  tag: string;
+  summary: string;
+}
+
+interface LocationData {
+  city: string;
+  role: string;
+  color: string;
+}
 
 export const metadata: Metadata = {
   title: "AI Animal Health Platform | Mattera Life Systems",
@@ -8,7 +40,8 @@ export const metadata: Metadata = {
     "Mattera Life Systems builds AI-powered health intelligence infrastructure for animals — wearable sensors, behavioral analytics, and predictive diagnostics.",
 };
 
-const techPillars = [
+// Fallback data
+const defaultTechPillars = [
   { icon: Brain, label: "Artificial Intelligence", color: "#4FD1C5" },
   { icon: Activity, label: "Behavioral Analytics", color: "#8FA7FF" },
   { icon: Cpu, label: "IoT & Wearable Sensors", color: "#4FD1C5" },
@@ -17,7 +50,7 @@ const techPillars = [
   { icon: Globe, label: "Cross-Species Intelligence", color: "#8FA7FF" },
 ];
 
-const useCases = [
+const defaultUseCases = [
   {
     segment: "Companion Animals",
     tag: "Pets",
@@ -48,28 +81,86 @@ const useCases = [
   },
 ];
 
-const researchStudies = [
+const defaultResearchStudies = [
   {
-    id: "01",
+    display_id: "01",
     title: "Activity Variability in Working Buffaloes",
     tag: "Livestock",
     summary: "120-day movement intensity monitoring with strain threshold modeling for early overexertion detection.",
   },
   {
-    id: "02",
+    display_id: "02",
     title: "Gait Asymmetry Detection in Performance Horses",
     tag: "Equine",
     summary: "Accelerometer-based step symmetry modeling for early lameness and orthopedic risk identification.",
   },
   {
-    id: "03",
+    display_id: "03",
     title: "Behavioral Stress Index — Companion Dogs",
     tag: "Companion",
     summary: "Sleep variability and activity imbalance scoring with owner behavioral tagging for anxiety disorder detection.",
   },
 ];
 
-export default function HomePage() {
+const defaultLocations = [
+  { city: "Hyderabad, India", role: "Research, Engineering & Product Development Hub", color: "#4FD1C5" },
+  { city: "United States", role: "Strategic Operations, Partnerships & Global Expansion", color: "#8FA7FF" },
+];
+
+export default async function HomePage() {
+  // Fetch dynamic content
+  const heroData = await fetchStrapi("hero");
+  const techPillarsData = await fetchStrapi("tech-pillars");
+  const useCasesData = await fetchStrapi("use-cases");
+  const researchStudiesData = await fetchStrapi("research-studies");
+  const locationsData = await fetchStrapi("locations");
+
+  // Hero fallback
+  const hero = {
+    badge_text: heroData?.badge_text || "Deep-Tech Animal Health Infrastructure",
+    title: heroData?.title || "Engineering Predictive Health Intelligence Infrastructure for Animals",
+    description: heroData?.description || "AI-driven infrastructure combining behavioral analytics, wearable sensors, and predictive modeling to enable continuous health monitoring across companion animals, working animals, and livestock populations.",
+  };
+
+  // Tech Pillars mapping
+  const techPillars = techPillarsData?.length > 0
+    ? techPillarsData.map((tp: any) => ({
+      label: tp.label,
+      color: tp.color,
+      icon: ICON_MAP[tp.icon_name] || Brain
+    }))
+    : defaultTechPillars;
+
+  // Use Cases mapping
+  const useCases = useCasesData?.length > 0
+    ? useCasesData.map((uc: any) => ({
+      segment: uc.segment,
+      tag: uc.tag,
+      color: uc.color,
+      items: uc.items || [],
+      desc: uc.description
+    }))
+    : defaultUseCases;
+
+  // Research Studies mapping
+  const researchStudies = researchStudiesData?.length > 0
+    ? researchStudiesData.map((rs: any) => ({
+      id: rs.display_id,
+      title: rs.title,
+      tag: rs.tag,
+      summary: rs.summary
+    }))
+    : defaultResearchStudies;
+
+  // Locations mapping
+  const locations = locationsData?.length > 0
+    ? locationsData.map((loc: any) => ({
+      city: loc.city,
+      role: loc.role,
+      color: loc.color
+    }))
+    : defaultLocations;
+
   return (
     <div style={{ background: "var(--bg-primary)" }}>
       {/* ─── HERO ─────────────────────────────────────────────────── */}
@@ -91,7 +182,7 @@ export default function HomePage() {
             right: "8%",
             width: "600px",
             height: "600px",
-            background: "radial-gradient(ellipse, rgba(79,209,197,0.08) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse, rgba(79,209,197,var(--glow-opacity)) 0%, transparent 70%)",
             pointerEvents: "none",
           }}
         />
@@ -102,7 +193,7 @@ export default function HomePage() {
             left: "5%",
             width: "400px",
             height: "400px",
-            background: "radial-gradient(ellipse, rgba(143,167,255,0.06) 0%, transparent 65%)",
+            background: "radial-gradient(ellipse, rgba(143,167,255,var(--glow-opacity)) 0%, transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -110,7 +201,7 @@ export default function HomePage() {
         <div className="section-container" style={{ padding: "6rem 2rem", width: "100%" }}>
           <div style={{ maxWidth: "800px" }}>
             <div className="tag-pill animate-fade-up" style={{ marginBottom: "2rem" }}>
-              Deep-Tech Animal Health Infrastructure
+              {hero.badge_text}
             </div>
 
             <h1
@@ -123,9 +214,9 @@ export default function HomePage() {
                 fontFamily: "'Sora', sans-serif",
               }}
             >
-              Engineering Predictive{" "}
-              <span className="gradient-text">Health Intelligence</span>
-              {" "}Infrastructure for Animals
+              {/* Note: In a real app we might want to split words to keep the gradient highlight, 
+                  but for the CMS we'll keep it simple or use a special tag system. */}
+              {hero.title}
             </h1>
 
             <p
@@ -138,9 +229,7 @@ export default function HomePage() {
                 maxWidth: "620px",
               }}
             >
-              AI-driven infrastructure combining behavioral analytics, wearable sensors, and
-              predictive modeling to enable continuous health monitoring across companion animals,
-              working animals, and livestock populations.
+              {hero.description}
             </p>
 
             <div
@@ -220,8 +309,8 @@ export default function HomePage() {
                 <div
                   style={{
                     flex: 1,
-                    background: "rgba(255,255,255,0.03)",
-                    border: `1px solid ${item.color}22`,
+                    background: "var(--bg-subtle)",
+                    border: `1px solid var(--border-subtle)`,
                     borderRadius: "6px",
                     padding: "0.5rem 0.875rem",
                     fontSize: "0.8rem",
@@ -298,8 +387,8 @@ export default function HomePage() {
                     display: "flex",
                     alignItems: "center",
                     gap: "1.25rem",
-                    background: card.color,
-                    borderColor: card.border,
+                    background: "var(--bg-subtle)",
+                    borderColor: "var(--border-subtle)",
                   }}
                 >
                   <span style={{ fontSize: "1.5rem" }}>{card.icon}</span>
@@ -346,7 +435,7 @@ export default function HomePage() {
             }}
             className="tech-grid"
           >
-            {techPillars.map((pillar) => (
+            {techPillars.map((pillar: TechPillar) => (
               <div key={pillar.label} className="glass-card" style={{ padding: "1.75rem" }}>
                 <div
                   style={{
@@ -496,8 +585,8 @@ export default function HomePage() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }} className="studies-grid">
-            {researchStudies.map((study) => (
-              <div key={study.id} className="glass-card" style={{ padding: "2rem" }}>
+            {researchStudies.map((study: any) => (
+              <div key={study.id || study.display_id} className="glass-card" style={{ padding: "2rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
                   <span
                     style={{
@@ -547,7 +636,7 @@ export default function HomePage() {
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.25rem" }} className="usecase-grid">
-            {useCases.map((uc) => (
+            {useCases.map((uc: UseCase) => (
               <div key={uc.segment} className="glass-card" style={{ padding: "2rem" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
                   <span
@@ -569,7 +658,7 @@ export default function HomePage() {
                 <h3 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>{uc.segment}</h3>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", marginBottom: "1.25rem", lineHeight: 1.7 }}>{uc.desc}</p>
                 <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                  {uc.items.map((item) => (
+                  {uc.items.map((item: string) => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "0.625rem" }}>
                       <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: uc.color, marginTop: "0.6rem", flexShrink: 0 }} />
                       <span style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>{item}</span>
@@ -603,10 +692,7 @@ export default function HomePage() {
                 the United States.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {[
-                  { city: "Hyderabad, India", role: "Research, Engineering & Product Development Hub", color: "#4FD1C5" },
-                  { city: "United States", role: "Strategic Operations, Partnerships & Global Expansion", color: "#8FA7FF" },
-                ].map((loc) => (
+                {locations.map((loc: any) => (
                   <div
                     key={loc.city}
                     className="glass-card"
@@ -666,11 +752,11 @@ export default function HomePage() {
               maxWidth: "700px",
               margin: "0 auto",
               padding: "4rem",
-              background: "rgba(19, 25, 41, 0.6)",
-              border: "1px solid rgba(79,209,197,0.15)",
+              background: "var(--bg-overlay)",
+              border: "1px solid var(--border-subtle)",
               borderRadius: "20px",
               backdropFilter: "blur(16px)",
-              boxShadow: "0 0 80px rgba(79,209,197,0.06)",
+              boxShadow: "0 0 80px var(--border-subtle)",
             }}
           >
             <div className="tag-pill" style={{ marginBottom: "1.5rem" }}>Engage With Us</div>

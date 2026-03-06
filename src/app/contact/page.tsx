@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Metadata } from "next";
@@ -30,10 +31,28 @@ export default function ContactPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Simulated submission — will connect to FastAPI POST /contactform later
-        await new Promise((r) => setTimeout(r, 1200));
-        setLoading(false);
-        setSubmitted(true);
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(form),
+            });
+
+            if (response.ok) {
+                setSubmitted(true);
+            } else {
+                const data = await response.json();
+                alert(data.error || "Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            alert("Failed to connect to the server. Please check your internet connection.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -71,7 +90,7 @@ export default function ContactPage() {
                                         { label: "Investment Discussions", desc: "Venture and strategic investment enquiries" },
                                     ].map((eq) => (
                                         <div key={eq.label} className="glass-card" style={{ padding: "1.125rem 1.25rem" }}>
-                                            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: "0.875rem", color: "#4FD1C5", marginBottom: "0.25rem" }}>{eq.label}</div>
+                                            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: "0.875rem", color: "var(--accent-teal)", marginBottom: "0.25rem" }}>{eq.label}</div>
                                             <div style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>{eq.desc}</div>
                                         </div>
                                     ))}
@@ -91,12 +110,12 @@ export default function ContactPage() {
                                         transition: "opacity 0.2s",
                                     }}
                                 >
-                                    <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(79,209,197,0.08)", border: "1px solid rgba(79,209,197,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                                        <Mail size={16} color="#4FD1C5" />
+                                    <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "var(--bg-pill)", border: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                                        <Mail size={16} color="var(--accent-teal)" />
                                     </div>
                                     <div>
                                         <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginBottom: "0.2rem" }}>Email</div>
-                                        <div style={{ color: "#4FD1C5", fontSize: "0.875rem", fontFamily: "'Inter', sans-serif" }}>contact@matteralifesystems.com</div>
+                                        <div style={{ color: "var(--accent-teal)", fontSize: "0.875rem", fontFamily: "'Inter', sans-serif" }}>contact@matteralifesystems.com</div>
                                     </div>
                                 </a>
                                 {[
@@ -104,7 +123,7 @@ export default function ContactPage() {
                                     { city: "United States", role: "Strategic Operations", color: "#8FA7FF" },
                                 ].map((loc) => (
                                     <div key={loc.city} style={{ display: "flex", alignItems: "center", gap: "0.875rem" }}>
-                                        <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: `${loc.color}0C`, border: `1px solid ${loc.color}22`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                                        <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "var(--bg-pill)", border: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                                             <MapPin size={16} color={loc.color} />
                                         </div>
                                         <div>
@@ -118,7 +137,7 @@ export default function ContactPage() {
                                         { label: "matteralifesystems.com", href: "https://matteralifesystems.com" },
                                         { label: "pawos.app", href: "https://pawos.app" },
                                     ].map((d) => (
-                                        <a key={d.label} href={d.href} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "#8FA7FF", fontSize: "0.8125rem", textDecoration: "none" }}>
+                                        <a key={d.label} href={d.href} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "var(--accent-blue)", fontSize: "0.8125rem", textDecoration: "none" }}>
                                             <ExternalLink size={12} /> {d.label}
                                         </a>
                                     ))}
@@ -134,17 +153,17 @@ export default function ContactPage() {
                                     style={{
                                         padding: "4rem 3rem",
                                         textAlign: "center",
-                                        borderColor: "rgba(79,209,197,0.25)",
-                                        background: "rgba(79,209,197,0.04)",
+                                        borderColor: "var(--accent-teal)",
+                                        background: "var(--bg-pill)",
                                     }}
                                 >
-                                    <CheckCircle size={48} color="#4FD1C5" style={{ marginBottom: "1.5rem" }} />
-                                    <h2 style={{ fontSize: "1.375rem", marginBottom: "0.875rem" }}>
+                                    <CheckCircle size={48} color="var(--accent-teal)" style={{ marginBottom: "1.5rem" }} />
+                                    <h2 style={{ fontSize: "1.375rem", marginBottom: "0.875rem", color: "var(--text-primary)" }}>
                                         <span className="gradient-text">Message Received</span>
                                     </h2>
                                     <p style={{ color: "var(--text-secondary)", lineHeight: 1.8 }}>
                                         Thank you for reaching out to Mattera Life Systems. We will review your
-                                        enquiry and respond to <strong style={{ color: "#4FD1C5" }}>{form.email}</strong> within 2–3 business days.
+                                        enquiry and respond to <strong style={{ color: "var(--accent-teal)" }}>{form.email}</strong> within 2–3 business days.
                                     </p>
                                 </div>
                             ) : (
@@ -209,10 +228,10 @@ export default function ContactPage() {
                                             className="input-field"
                                             value={form.type}
                                             onChange={(e) => setForm({ ...form, type: e.target.value })}
-                                            style={{ appearance: "none", cursor: "pointer" }}
+                                            style={{ appearance: "none", cursor: "pointer", background: "var(--bg-card)", color: "var(--text-primary)" }}
                                         >
                                             {enquiryTypes.map((t) => (
-                                                <option key={t} value={t} style={{ background: "#0B0F19" }}>
+                                                <option key={t} value={t} style={{ background: "var(--bg-card)" }}>
                                                     {t}
                                                 </option>
                                             ))}
@@ -263,7 +282,7 @@ export default function ContactPage() {
 
                                     <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: "1rem", textAlign: "center" }}>
                                         Or email directly at{" "}
-                                        <a href="mailto:contact@matteralifesystems.com" style={{ color: "#4FD1C5", textDecoration: "none" }}>contact@matteralifesystems.com</a>
+                                        <a href="mailto:contact@matteralifesystems.com" style={{ color: "var(--accent-teal)", textDecoration: "none" }}>contact@matteralifesystems.com</a>
                                     </p>
 
                                     <style>{`
