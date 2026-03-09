@@ -37,7 +37,7 @@ export default async function ContactPage() {
     ];
 
     const contactDetails = data?.contact_details_section || {
-        email: "contact@matteralifesystems.com",
+        email: "info@matteralifesystems.com",
         links: [
             { label: "matteralifesystems.com", href: "https://matteralifesystems.com" },
             { label: "pawos.app", href: "https://pawos.app" },

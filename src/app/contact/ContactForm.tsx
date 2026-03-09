@@ -191,7 +191,7 @@ export default function ContactForm({ enquiryTypes = [
 
             <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: "1rem", textAlign: "center" }}>
                 Or email directly at{" "}
-                <a href="mailto:contact@matteralifesystems.com" style={{ color: "var(--accent-teal)", textDecoration: "none" }}>contact@matteralifesystems.com</a>
+                <a href="mailto:info@matteralifesystems.com" style={{ color: "var(--accent-teal)", textDecoration: "none" }}>info@matteralifesystems.com</a>
             </p>
 
             <style>{`

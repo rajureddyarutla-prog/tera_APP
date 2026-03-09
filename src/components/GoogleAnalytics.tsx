@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-EXZL4CWERE";
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-XLM1QBXPG2";
 
 export default function GoogleAnalytics() {
     if (!GA_ID) return null;

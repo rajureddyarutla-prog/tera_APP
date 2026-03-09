@@ -56,7 +56,7 @@ export default async function CompanyPage() {
         { label: "Jurisdiction", value: "India (with US Operations)" },
         { label: "Domain", value: "matteralifesystems.com" },
         { label: "Product Platform", value: "pawos.app" },
-        { label: "Contact", value: "contact@matteralifesystems.com" },
+        { label: "Contact", value: "info@matteralifesystems.com" },
         { label: "Stage", value: "Early-Stage Deep-Tech / Research" },
     ];
 
@@ -72,9 +72,9 @@ export default async function CompanyPage() {
     // New Careers Section from Strapi
     const careers = data?.careers_section || {
         title: "Careers at Mattera",
-        description: "We are occasionally looking for deep-tech researchers and engineering talent. Send your credentials to contact@matteralifesystems.com",
+        description: "We are occasionally looking for deep-tech researchers and engineering talent. Send your credentials to info@matteralifesystems.com",
         cta_label: "Get in Touch",
-        cta_href: "mailto:contact@matteralifesystems.com"
+        cta_href: "mailto:info@matteralifesystems.com"
     };
 
     // New Values Section Heading from Strapi

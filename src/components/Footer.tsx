@@ -155,7 +155,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
 
                         {/* Email */}
                         <a
-                            href="mailto:contact@matteralifesystems.com"
+                            href="mailto:info@matteralifesystems.com"
                             style={{
                                 display: "inline-flex",
                                 alignItems: "center",
@@ -170,7 +170,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
                             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
                         >
                             <Mail size={13} />
-                            contact@matteralifesystems.com
+                            info@matteralifesystems.com
                         </a>
                     </div>
 
