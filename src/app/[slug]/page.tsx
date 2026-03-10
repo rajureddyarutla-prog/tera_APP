@@ -11,17 +11,38 @@ interface PageData {
     sections?: { title: string; desc: string }[];
 }
 
-export default async function GenericPage({ params }: { params: { slug: string } }) {
-    const { slug } = params;
+export const dynamicParams = false;
 
-    // Fetch page by slug from Strapi
+export async function generateStaticParams() {
+    try {
+        const pages = await fetchStrapi('pages?fields=slug');
+        console.log(`[generateStaticParams] Fetched pages:`, JSON.stringify(pages));
+
+        if (!pages || !Array.isArray(pages)) {
+            console.warn(`[generateStaticParams] No pages found or pages is not an array`);
+            return [];
+        }
+
+        return pages.map((page: any) => ({
+            slug: page.attributes?.slug || page.slug || "",
+        })).filter(p => p.slug !== "");
+    } catch (error) {
+        console.error(`[generateStaticParams] Error:`, error);
+        return [];
+    }
+}
+
+export default async function GenericPage({ params }: { params: Promise<{ slug: string }> }) {
+    const resolvedParams = await params;
+    const { slug } = resolvedParams;
+
     const pages = await fetchStrapi(`pages?filters[slug][$eq]=${slug}`);
 
     if (!pages || pages.length === 0) {
         notFound();
     }
 
-    const data: PageData = pages[0];
+    const data: PageData = pages[0].attributes || pages[0];
 
     return (
         <div style={{ background: "var(--bg-primary)" }}>
