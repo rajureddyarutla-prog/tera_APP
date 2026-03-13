@@ -29,7 +29,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
     const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '');
     const logoSrc = navData?.logo_image?.url
         ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
-        : null;
+        : "/mattera.png";
 
     const columns = navData?.footer_columns || [
         {
@@ -100,7 +100,17 @@ export default function Footer({ navData }: { navData?: NavData }) {
                                         objectFit: "contain",
                                         borderRadius: "4px"
                                     }}
-                                    onError={() => setLogoError(true)}
+                                    onError={(e) => {
+                                        const target = e.currentTarget as HTMLImageElement;
+                                        const fallback = "/mattera.png";
+                                        // If we haven't tried the fallback yet, try it now
+                                        if (target.src.indexOf(fallback) === -1) {
+                                            target.src = fallback;
+                                        } else {
+                                            // If even the fallback fails, show the SVG icon
+                                            setLogoError(true);
+                                        }
+                                    }}
                                 />
                             ) : (
                                 <div

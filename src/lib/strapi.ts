@@ -10,7 +10,7 @@ export async function fetchStrapi(path: string, params: string = "populate=*") {
         const json = await res.json();
         return json.data;
     } catch (error) {
-        console.error(`Error fetching Strapi path ${path}:`, error);
+        // Silent failure - will use local defaults in components
         return null;
     }
 }

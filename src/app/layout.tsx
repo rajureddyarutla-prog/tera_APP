@@ -87,7 +87,7 @@ export default async function RootLayout({
   try {
     navData = await fetchStrapi('navigation');
   } catch (err) {
-    console.error('Layout: Failed to fetch navigation', err);
+    // Fail silently - Navbar and Footer will use default mattera.png
   }
 
   return (
