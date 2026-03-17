@@ -104,12 +104,12 @@ export default async function CompanyPage() {
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }} className="mv-grid">
                         <div className="glass-card" style={{ padding: "3rem 2.5rem", borderLeft: "4px solid var(--accent-teal)" }}>
                             <div className="tag-pill" style={{ marginBottom: "1.5rem", color: "var(--accent-teal)", borderColor: "var(--border-subtle)", background: "var(--bg-pill)" }}>{mission.title}</div>
-                            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", fontFamily: "'Sora', sans-serif" }}>{mission.h2}</h2>
+                            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", fontFamily: "var(--font-sora)" }}>{mission.h2}</h2>
                             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, fontSize: "0.9375rem" }}>{mission.desc}</p>
                         </div>
                         <div className="glass-card" style={{ padding: "3rem 2.5rem", borderLeft: "4px solid var(--accent-blue)" }}>
                             <div className="tag-pill" style={{ marginBottom: "1.5rem", color: "var(--accent-blue)", borderColor: "var(--border-subtle)", background: "var(--bg-pill)" }}>{vision.title}</div>
-                            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", fontFamily: "'Sora', sans-serif" }}>{vision.h2}</h2>
+                            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", fontFamily: "var(--font-sora)" }}>{vision.h2}</h2>
                             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, fontSize: "0.9375rem" }}>{vision.desc}</p>
                         </div>
                     </div>
@@ -135,7 +135,7 @@ export default async function CompanyPage() {
                             {profile_rows.map((row, i) => (
                                 <div key={row.label} style={{ display: "flex", justifyContent: "space-between", padding: "1rem 0", borderBottom: i < profile_rows.length - 1 ? "1px solid var(--border-subtle)" : "none" }}>
                                     <span style={{ color: "var(--text-muted)", fontSize: "0.875rem", fontWeight: 600 }}>{row.label}</span>
-                                    <span style={{ color: "var(--text-primary)", fontSize: "0.875rem", fontWeight: 700, textAlign: "right", fontFamily: "'Sora', sans-serif" }}>{row.value}</span>
+                                    <span style={{ color: "var(--text-primary)", fontSize: "0.875rem", fontWeight: 700, textAlign: "right", fontFamily: "var(--font-sora)" }}>{row.value}</span>
                                 </div>
                             ))}
                         </div>
@@ -154,7 +154,7 @@ export default async function CompanyPage() {
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }} className="values-grid">
                         {values.map((v) => (
                             <div key={v.title} className="glass-card" style={{ padding: "2rem", borderColor: `${v.color}15` }}>
-                                <div style={{ fontSize: "0.9375rem", fontWeight: 800, color: v.color, marginBottom: "0.875rem", fontFamily: "'Sora', sans-serif" }}>{v.title}</div>
+                                <div style={{ fontSize: "0.9375rem", fontWeight: 800, color: v.color, marginBottom: "0.875rem", fontFamily: "var(--font-sora)" }}>{v.title}</div>
                                 <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.75 }}>{v.desc}</p>
                             </div>
                         ))}
@@ -175,7 +175,7 @@ export default async function CompanyPage() {
                             <div key={loc.location} className="glass-card" style={{ padding: "2.5rem" }}>
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
                                     <MapPin size={20} color={loc.color} />
-                                    <h3 style={{ fontSize: "1.25rem", fontWeight: 700, fontFamily: "'Sora', sans-serif" }}>{loc.location}</h3>
+                                    <h3 style={{ fontSize: "1.25rem", fontWeight: 700, fontFamily: "var(--font-sora)" }}>{loc.location}</h3>
                                 </div>
                                 <div style={{ fontWeight: 600, color: loc.color, fontSize: "0.875rem", marginBottom: "1rem" }}>{loc.role}</div>
                                 <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.625rem" }}>

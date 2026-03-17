@@ -39,7 +39,7 @@ export default function Navbar({ navData }: { navData?: NavData }) {
     const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '');
     const logoSrc = navData?.logo_image?.url
         ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
-        : "/mattera.png";
+        : "/mattera.webp";
 
     const links = navData?.nav_links || [
         { label: "Home", href: "/" },
@@ -126,6 +126,10 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                             <img
                                 src={logoSrc}
                                 alt="Mattera Life Systems Logo"
+                                width={160}
+                                height={40}
+                                decoding="async"
+                                fetchPriority="low"
                                 style={{
                                     height: "40px",
                                     width: "auto",
@@ -171,10 +175,10 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                                     </svg>
                                 </div>
                                 <div>
-                                    <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1rem", color: "var(--text-primary)", lineHeight: 1.1 }}>
+                                    <div style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1rem", color: "var(--text-primary)", lineHeight: 1.1 }}>
                                         {logoTop}
                                     </div>
-                                    <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "0.625rem", color: "var(--accent-teal)", letterSpacing: "0.15em", textTransform: "uppercase", lineHeight: 1.2 }}>
+                                    <div style={{ fontFamily: "var(--font-inter)", fontWeight: 400, fontSize: "0.625rem", color: "var(--accent-teal)", letterSpacing: "0.15em", textTransform: "uppercase", lineHeight: 1.2 }}>
                                         {logoBottom}
                                     </div>
                                 </div>
@@ -191,7 +195,7 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                                     key={link.href}
                                     href={link.href}
                                     style={{
-                                        fontFamily: "'Inter', sans-serif",
+                                        fontFamily: "var(--font-inter)",
                                         fontWeight: 500,
                                         fontSize: "0.8125rem",
                                         color: active ? "var(--accent-teal)" : "var(--text-secondary)",
@@ -285,7 +289,7 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                             key={link.href}
                             href={link.href}
                             style={{
-                                fontFamily: "'Sora', sans-serif",
+                                fontFamily: "var(--font-sora)",
                                 fontWeight: 600,
                                 fontSize: "1.25rem",
                                 color: active ? "#4FD1C5" : "#F0F4FF",

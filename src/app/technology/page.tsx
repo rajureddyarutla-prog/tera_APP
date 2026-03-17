@@ -86,7 +86,7 @@ export default async function TechnologyPage() {
                         {architecture_steps.map((s, i) => (
                             <div key={s.label} style={{ position: "relative" }}>
                                 <div className="glass-card" style={{ padding: "1.25rem", height: "100%", borderColor: `${s.color}15` }}>
-                                    <div style={{ fontSize: "0.75rem", fontWeight: 800, color: s.color, marginBottom: "0.75rem", fontFamily: "'Sora', sans-serif" }}>{s.step}</div>
+                                    <div style={{ fontSize: "0.75rem", fontWeight: 800, color: s.color, marginBottom: "0.75rem", fontFamily: "var(--font-sora)" }}>{s.step}</div>
                                     <div style={{ fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.25rem" }}>{s.label}</div>
                                     <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", lineHeight: 1.4 }}>{s.sub}</div>
                                 </div>

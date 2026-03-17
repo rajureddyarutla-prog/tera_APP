@@ -81,7 +81,7 @@ export default function ContactForm({ enquiryTypes = [
             className="glass-card"
             style={{ padding: "2.5rem" }}
         >
-            <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.25rem", marginBottom: "0.5rem" }}>Send an Enquiry</h2>
+            <h2 style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1.25rem", marginBottom: "0.5rem" }}>Send an Enquiry</h2>
             <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginBottom: "2rem" }}>
                 All fields are required. Responses within 2–3 business days.
             </p>

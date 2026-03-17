@@ -257,13 +257,12 @@ export default async function HomePage() {
             </div>
 
             <h1
-              className="animate-fade-up delay-100"
               style={{
                 fontSize: "clamp(2.5rem, 5vw, 4rem)",
                 fontWeight: 800,
                 lineHeight: 1.1,
                 marginBottom: "1.5rem",
-                fontFamily: "'Sora', sans-serif",
+                fontFamily: "var(--font-sora)",
               }}
             >
               {/* Note: In a real app we might want to split words to keep the gradient highlight, 
@@ -272,7 +271,6 @@ export default async function HomePage() {
             </h1>
 
             <p
-              className="animate-fade-up delay-200"
               style={{
                 fontSize: "1.125rem",
                 color: "var(--text-secondary)",
@@ -320,7 +318,7 @@ export default async function HomePage() {
               ].map((s) => (
                 <div key={s.label}>
                   <div className="stat-number" style={{ fontSize: "1.5rem" }}>{s.value}</div>
-                  <div style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: "0.25rem", fontFamily: "'Inter', sans-serif" }}>{s.label}</div>
+                  <div style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: "0.25rem", fontFamily: "var(--font-inter)" }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -340,7 +338,7 @@ export default async function HomePage() {
         >
           <div
             className="glass-card animate-pulse-glow"
-            style={{ padding: "2rem", fontFamily: "'Inter', sans-serif" }}
+            style={{ padding: "2rem", fontFamily: "var(--font-inter)" }}
           >
             <div style={{ fontSize: "0.65rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--accent-teal)", marginBottom: "1.25rem", fontWeight: 600 }}>
               Intelligence Stack
@@ -435,7 +433,7 @@ export default async function HomePage() {
                     <div style={{ fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", marginBottom: "0.2rem" }}>
                       {card.label}
                     </div>
-                    <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, color: "var(--text-primary)" }}>
+                    <div style={{ fontFamily: "var(--font-sora)", fontWeight: 600, color: "var(--text-primary)" }}>
                       {card.value}
                     </div>
                   </div>
@@ -491,7 +489,7 @@ export default async function HomePage() {
                 >
                   <pillar.icon size={20} color={pillar.color} />
                 </div>
-                <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: "0.9375rem", color: "var(--text-primary)" }}>
+                <div style={{ fontFamily: "var(--font-sora)", fontWeight: 600, fontSize: "0.9375rem", color: "var(--text-primary)" }}>
                   {pillar.label}
                 </div>
               </div>
@@ -530,7 +528,7 @@ export default async function HomePage() {
                   marginBottom: "1.5rem",
                 }}
               >
-                <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, color: "#4FD1C5", fontSize: "0.875rem" }}>{platformContent.badge}</span>
+                <span style={{ fontFamily: "var(--font-sora)", fontWeight: 700, color: "#4FD1C5", fontSize: "0.875rem" }}>{platformContent.badge}</span>
                 <span style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em" }}>{platformContent.sub_badge}</span>
               </div>
               <h2 style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", marginBottom: "1.25rem" }}>
@@ -561,7 +559,7 @@ export default async function HomePage() {
             <div>
               <div className="glass-card animate-pulse-glow" style={{ padding: "2rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
-                  <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, color: "#4FD1C5", fontSize: "0.9rem" }}>{platformContent.badge} — Health Intelligence</div>
+                  <div style={{ fontFamily: "var(--font-sora)", fontWeight: 700, color: "#4FD1C5", fontSize: "0.9rem" }}>{platformContent.badge} — Health Intelligence</div>
                   <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4FD1C5", boxShadow: "0 0 8px #4FD1C5" }} />
                 </div>
                 {platformContent.metrics.map((row: any) => (
@@ -578,7 +576,7 @@ export default async function HomePage() {
                   >
                     <span style={{ color: "var(--text-secondary)" }}>{row.metric}</span>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                      <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, color: "var(--text-primary)" }}>{row.value}</span>
+                      <span style={{ fontFamily: "var(--font-sora)", fontWeight: 600, color: "var(--text-primary)" }}>{row.value}</span>
                       <span style={{ color: row.color, fontSize: "0.75rem" }}>{row.trend}</span>
                     </div>
                   </div>
@@ -613,7 +611,7 @@ export default async function HomePage() {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
                   <span
                     style={{
-                      fontFamily: "'Sora', sans-serif",
+                      fontFamily: "var(--font-sora)",
                       fontSize: "0.65rem",
                       fontWeight: 700,
                       letterSpacing: "0.12em",
@@ -627,11 +625,11 @@ export default async function HomePage() {
                   >
                     {study.tag}
                   </span>
-                  <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: "2rem", color: "rgba(79,209,197,0.12)" }}>
+                  <span style={{ fontFamily: "var(--font-sora)", fontWeight: 800, fontSize: "2rem", color: "rgba(79,209,197,0.12)" }}>
                     {study.id}
                   </span>
                 </div>
-                <h3 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1rem", marginBottom: "0.875rem", color: "var(--text-primary)", lineHeight: 1.4 }}>
+                <h3 style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1rem", marginBottom: "0.875rem", color: "var(--text-primary)", lineHeight: 1.4 }}>
                   {study.title}
                 </h3>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.75 }}>
@@ -678,7 +676,7 @@ export default async function HomePage() {
                     {uc.tag}
                   </span>
                 </div>
-                <h3 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>{uc.segment}</h3>
+                <h3 style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>{uc.segment}</h3>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", marginBottom: "1.25rem", lineHeight: 1.7 }}>{uc.desc}</p>
                 <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                   {uc.items.map((item: string) => (
@@ -723,7 +721,7 @@ export default async function HomePage() {
                   >
                     <div style={{ width: "3px", height: "40px", borderRadius: "2px", background: loc.color, flexShrink: 0 }} />
                     <div>
-                      <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, color: loc.color, marginBottom: "0.25rem" }}>{loc.city}</div>
+                      <div style={{ fontFamily: "var(--font-sora)", fontWeight: 600, color: loc.color, marginBottom: "0.25rem" }}>{loc.city}</div>
                       <div style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>{loc.role}</div>
                     </div>
                   </div>
@@ -733,7 +731,7 @@ export default async function HomePage() {
 
             {/* Domain info panel */}
             <div className="glass-card" style={{ padding: "2.5rem" }}>
-              <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.1rem", marginBottom: "2rem", color: "var(--text-primary)" }}>
+              <div style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1.1rem", marginBottom: "2rem", color: "var(--text-primary)" }}>
                 Platform Domains
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
@@ -753,7 +751,7 @@ export default async function HomePage() {
                     <div style={{ fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", marginBottom: "0.375rem" }}>
                       {d.label}
                     </div>
-                    <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, color: d.highlight ? "#4FD1C5" : "#8FA7FF", fontSize: "1rem", marginBottom: "0.25rem" }}>
+                    <div style={{ fontFamily: "var(--font-sora)", fontWeight: 700, color: d.highlight ? "#4FD1C5" : "#8FA7FF", fontSize: "1rem", marginBottom: "0.25rem" }}>
                       {d.url}
                     </div>
                     <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{d.desc}</div>

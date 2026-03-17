@@ -150,7 +150,7 @@ export default async function PlatformPage() {
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }} className="engine-grid">
                         {engine_cards.map((card) => (
                             <div key={card.title} className="glass-card" style={{ padding: "2.5rem", borderColor: `${card.color}15` }}>
-                                <div style={{ fontSize: "0.875rem", fontWeight: 800, color: card.color, marginBottom: "1rem", fontFamily: "'Sora', sans-serif" }}>{card.title}</div>
+                                <div style={{ fontSize: "0.875rem", fontWeight: 800, color: card.color, marginBottom: "1rem", fontFamily: "var(--font-sora)" }}>{card.title}</div>
                                 <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.75 }}>{card.desc}</p>
                             </div>
                         ))}

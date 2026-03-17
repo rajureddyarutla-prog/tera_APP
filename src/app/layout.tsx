@@ -10,13 +10,15 @@ import { fetchStrapi } from "@/lib/strapi";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
-  display: "swap",
+  weight: ["600", "700", "800"],
+  display: "optional",
 });
 
 export const metadata: Metadata = {
@@ -42,12 +44,12 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Mattera Life Systems" }],
   creator: "Mattera Life Systems",
-  metadataBase: new URL("https://matteralifesystems.com"),
+  metadataBase: new URL("https://www.matteralifesystems.com"),
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://matteralifesystems.com",
+    url: "https://www.matteralifesystems.com",
     siteName: "Mattera Life Systems",
     title: "AI Animal Health Platform | Mattera Life Systems",
     description:

@@ -124,7 +124,7 @@ export default async function InvestorsPage() {
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }} className="stat-grid">
                         {market_stats.map((s) => (
                             <div key={s.label} className="glass-card" style={{ padding: "2rem", textAlign: "center" }}>
-                                <div style={{ fontSize: "2rem", fontWeight: 800, color: "#4FD1C5", marginBottom: "0.5rem", fontFamily: "'Sora', sans-serif" }}>{s.value}</div>
+                                <div style={{ fontSize: "2rem", fontWeight: 800, color: "#4FD1C5", marginBottom: "0.5rem", fontFamily: "var(--font-sora)" }}>{s.value}</div>
                                 <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>{s.label}</div>
                             </div>
                         ))}

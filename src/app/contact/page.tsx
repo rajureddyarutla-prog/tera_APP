@@ -73,7 +73,7 @@ export default async function ContactPage() {
                                 <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                                     {enquiry_areas.map((eq: any) => (
                                         <div key={eq.label} className="glass-card" style={{ padding: "1.125rem 1.25rem" }}>
-                                            <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: "0.875rem", color: "var(--accent-teal)", marginBottom: "0.25rem" }}>{eq.label}</div>
+                                            <div style={{ fontFamily: "var(--font-sora)", fontWeight: 600, fontSize: "0.875rem", color: "var(--accent-teal)", marginBottom: "0.25rem" }}>{eq.label}</div>
                                             <div style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>{eq.desc}</div>
                                         </div>
                                     ))}
@@ -97,7 +97,7 @@ export default async function ContactPage() {
                                     </div>
                                     <div>
                                         <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginBottom: "0.2rem" }}>Email</div>
-                                        <div style={{ color: "var(--accent-teal)", fontSize: "0.875rem", fontFamily: "'Inter', sans-serif" }}>{contactDetails.email}</div>
+                                        <div style={{ color: "var(--accent-teal)", fontSize: "0.875rem", fontFamily: "var(--font-inter)" }}>{contactDetails.email}</div>
                                     </div>
                                 </a>
                                 {locations.map((loc: any) => (

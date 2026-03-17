@@ -29,7 +29,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
     const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '');
     const logoSrc = navData?.logo_image?.url
         ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
-        : "/mattera.png";
+        : "/mattera.webp";
 
     const columns = navData?.footer_columns || [
         {
@@ -94,6 +94,10 @@ export default function Footer({ navData }: { navData?: NavData }) {
                                 <img
                                     src={logoSrc}
                                     alt="Mattera Life Systems Logo"
+                                    width={160}
+                                    height={40}
+                                    loading="lazy"
+                                    decoding="async"
                                     style={{
                                         height: "40px",
                                         width: "auto",
@@ -137,10 +141,10 @@ export default function Footer({ navData }: { navData?: NavData }) {
                                         </svg>
                                     </div>
                                     <div>
-                                        <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>
+                                        <div style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>
                                             Mattera Life Systems
                                         </div>
-                                        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.7rem", color: "var(--accent-teal)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                                        <div style={{ fontFamily: "var(--font-inter)", fontSize: "0.7rem", color: "var(--accent-teal)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
                                             Private Limited
                                         </div>
                                     </div>
@@ -173,7 +177,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
                                 color: "#4FD1C5",
                                 fontSize: "0.8125rem",
                                 textDecoration: "none",
-                                fontFamily: "'Inter', sans-serif",
+                                fontFamily: "var(--font-inter)",
                                 transition: "opacity 0.2s",
                             }}
                             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.75")}
@@ -189,7 +193,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
                         <div key={col.title}>
                             <h3
                                 style={{
-                                    fontFamily: "'Sora', sans-serif",
+                                    fontFamily: "var(--font-sora)",
                                     fontWeight: 600,
                                     fontSize: "0.75rem",
                                     letterSpacing: "0.1em",
@@ -210,7 +214,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
                                                 textDecoration: "none",
                                                 fontSize: "0.875rem",
                                                 transition: "color 0.2s",
-                                                fontFamily: "'Inter', sans-serif",
+                                                fontFamily: "var(--font-inter)",
                                             }}
                                             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-primary)")}
                                             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")}
@@ -240,7 +244,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
                     }}
                 >
                     <div>
-                        <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.25rem" }}>
+                        <div style={{ fontFamily: "var(--font-sora)", fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.25rem" }}>
                             PawOS Platform
                         </div>
                         <div style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>
@@ -277,13 +281,13 @@ export default function Footer({ navData }: { navData?: NavData }) {
                         flexWrap: "wrap",
                     }}
                 >
-                    <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem", fontFamily: "'Inter', sans-serif" }}>
+                    <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem", fontFamily: "var(--font-inter)" }}>
                         © {new Date().getFullYear()} Mattera Life Systems Private Limited. All rights reserved.
                     </p>
                     <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
                         <a
                             href="https://matteralifesystems.com"
-                            style={{ color: "var(--text-muted)", fontSize: "0.8125rem", textDecoration: "none", fontFamily: "'Inter', sans-serif", transition: "color 0.2s" }}
+                            style={{ color: "var(--text-muted)", fontSize: "0.8125rem", textDecoration: "none", fontFamily: "var(--font-inter)", transition: "color 0.2s" }}
                             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")}
                             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-muted)")}
                         >
@@ -298,7 +302,7 @@ export default function Footer({ navData }: { navData?: NavData }) {
                                 color: "var(--text-muted)",
                                 fontSize: "0.8125rem",
                                 textDecoration: "none",
-                                fontFamily: "'Inter', sans-serif",
+                                fontFamily: "var(--font-inter)",
                                 display: "inline-flex",
                                 alignItems: "center",
                                 gap: "0.35rem",

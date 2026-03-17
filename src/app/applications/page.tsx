@@ -115,7 +115,7 @@ export default async function ApplicationsPage() {
                                 key={a.id}
                                 href={`#${a.id}`}
                                 style={{
-                                    fontFamily: "'Sora', sans-serif",
+                                    fontFamily: "var(--font-sora)",
                                     fontWeight: 600,
                                     fontSize: "0.8125rem",
                                     color: a.color,
@@ -147,7 +147,7 @@ export default async function ApplicationsPage() {
                             <div>
                                 <span
                                     style={{
-                                        fontFamily: "'Sora', sans-serif",
+                                        fontFamily: "var(--font-sora)",
                                         fontSize: "0.65rem",
                                         fontWeight: 700,
                                         letterSpacing: "0.12em",
@@ -175,7 +175,7 @@ export default async function ApplicationsPage() {
                                     <div key={f.title} className="glass-card" style={{ padding: "1.5rem", borderColor: `${app.color}18` }}>
                                         <div
                                             style={{
-                                                fontFamily: "'Sora', sans-serif",
+                                                fontFamily: "var(--font-sora)",
                                                 fontWeight: 700,
                                                 fontSize: "0.875rem",
                                                 color: app.color,
