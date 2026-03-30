@@ -1,7 +1,9 @@
 import type { MetadataRoute } from "next";
 import { fetchStrapi } from "@/lib/strapi";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.matteralifesystems.com";
+export const dynamic = "force-static";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://matteralifesystems.com";
 
 const STATIC_ROUTES = [
   "",
@@ -18,6 +20,8 @@ const STATIC_ROUTES = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
+  console.log("[Sitemap] Generating...");
+
   const staticEntries = STATIC_ROUTES.map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: now,
@@ -27,17 +31,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const pages = await fetchStrapi("pages?fields=slug");
-    if (Array.isArray(pages)) {
+    if (pages && Array.isArray(pages)) {
       dynamicEntries = pages
         .map((page: any) => page.attributes?.slug || page.slug)
-        .filter((slug: string) => typeof slug === "string" && slug.length > 0)
+        .filter((slug: any) => typeof slug === "string" && slug.length > 0)
         .map((slug: string) => ({
           url: `${SITE_URL}/${slug}`,
           lastModified: now,
         }));
     }
   } catch (error) {
-    // Ignore; fallback to static routes only.
+    console.warn("[Sitemap] Strapi fetch failed, using static only.");
   }
 
   return [...staticEntries, ...dynamicEntries];

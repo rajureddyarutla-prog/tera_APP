@@ -1,28 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ThemeToggle from "@/components/ThemeToggle";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { fetchStrapi } from "@/lib/strapi";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
+// Dynamically import heavy/non-critical components
+const Footer = dynamic(() => import("@/components/Footer"), {
+  ssr: true, // Keep SSR but defer hydration
 });
 
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  display: "optional",
-});
+const ThemeToggle = dynamic(() => import("@/components/ThemeToggle"));
+
+// Using local system font stack class names to bypass Google Font build errors.
+// These are defined in globals.css as fallback-friendly stacks.
+const interVar = "font-inter";
+const soraVar = "font-sora";
 
 export const metadata: Metadata = {
-  // ... existing metadata
   title: {
     default: "AI Animal Health Platform | Predictive Veterinary Intelligence | Mattera Life Systems",
     template: "%s | Mattera Life Systems",
@@ -89,11 +84,11 @@ export default async function RootLayout({
   try {
     navData = await fetchStrapi('navigation');
   } catch (err) {
-    // Fail silently - Navbar and Footer will use default mattera.png
+    // Fail silently
   }
 
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable}`}>
+    <html lang="en" className={`${interVar} ${soraVar}`}>
       <body className="antialiased">
         <GoogleAnalytics />
         <Navbar navData={navData} />

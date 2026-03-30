@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ExternalLink, Mail, MapPin } from "lucide-react";
 
 interface FooterLink {
@@ -91,30 +92,19 @@ export default function Footer({ navData }: { navData?: NavData }) {
                     <div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
                             {logoSrc && !logoError ? (
-                                <img
+                                <Image
                                     src={logoSrc}
-                                    alt="Mattera Life Systems Logo"
+                                    alt="Mattera"
                                     width={160}
                                     height={40}
                                     loading="lazy"
-                                    decoding="async"
                                     style={{
                                         height: "40px",
                                         width: "auto",
                                         objectFit: "contain",
                                         borderRadius: "4px"
                                     }}
-                                    onError={(e) => {
-                                        const target = e.currentTarget as HTMLImageElement;
-                                        const fallback = "/mattera.png";
-                                        // If we haven't tried the fallback yet, try it now
-                                        if (target.src.indexOf(fallback) === -1) {
-                                            target.src = fallback;
-                                        } else {
-                                            // If even the fallback fails, show the SVG icon
-                                            setLogoError(true);
-                                        }
-                                    }}
+                                    onError={() => setLogoError(true)}
                                 />
                             ) : (
                                 <div

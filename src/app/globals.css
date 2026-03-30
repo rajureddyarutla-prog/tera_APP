@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+  --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sora: "Sora", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --bg-primary: #0B0F19;
   --bg-secondary: #0F1525;
   --bg-card: #131929;
@@ -19,6 +21,7 @@
   --border-card: rgba(143, 167, 255, 0.1);
   --glow-teal: 0 0 40px rgba(79, 209, 197, 0.15);
   --glow-blue: 0 0 40px rgba(143, 167, 255, 0.12);
+  --glow-opacity: 0.15;
 }
 
 [data-theme='light'] {
@@ -36,6 +39,7 @@
   --border-card: rgba(15, 23, 42, 0.1);
   --glow-teal: 0 10px 30px rgba(79, 209, 197, 0.12);
   --glow-blue: 0 10px 30px rgba(143, 167, 255, 0.1);
+  --glow-opacity: 0.1;
 }
 
 * {
@@ -122,8 +126,8 @@ h6 {
 /* Utility: Glassmorphism card */
 .glass-card {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-card);
   border-radius: 16px;
   transition: all 0.3s ease;
@@ -243,18 +247,6 @@ h6 {
   }
 }
 
-@keyframes pulse-glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(79, 209, 197, 0.1);
-  }
-
-  50% {
-    box-shadow: 0 0 40px rgba(79, 209, 197, 0.25);
-  }
-}
-
 @keyframes float {
 
   0%,
@@ -264,6 +256,28 @@ h6 {
 
   50% {
     transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(79, 209, 197, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 30px rgba(79, 209, 197, 0.2);
   }
 }
 
@@ -295,14 +309,6 @@ h6 {
 
 .animate-fade-in {
   animation: fadeIn 0.6s ease forwards;
-}
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
 }
 
 /* Delay utilities */

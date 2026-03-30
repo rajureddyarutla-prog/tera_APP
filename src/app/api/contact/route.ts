@@ -3,7 +3,9 @@ import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
     try {
-        const { name, email, organisation, type, message } = await req.json();
+        const body = await req.json();
+        console.log('Received contact form request:', body);
+        const { name, email, organisation, type, message } = body;
 
         // Validate inputs
         if (!name || !email || !organisation || !type || !message) {
@@ -17,12 +19,16 @@ export async function POST(req: Request) {
         // Note: In production, use environment variables for these values
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+            port: Number(process.env.SMTP_PORT) || 465,
+            secure: process.env.SMTP_SECURE !== 'false',
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
             },
+            tls: {
+                rejectUnauthorized: false
+            },
+            connectionTimeout: 10000,
         });
 
         const mailOptions = {
@@ -58,10 +64,15 @@ export async function POST(req: Request) {
         await transporter.sendMail(mailOptions);
 
         return NextResponse.json({ message: 'Enquiry sent successfully' }, { status: 200 });
-    } catch (error) {
-        console.error('Email sending error:', error);
+    } catch (error: any) {
+        console.error('Email sending error details:', {
+            message: error.message,
+            code: error.code,
+            command: error.command,
+            response: error.response
+        });
         return NextResponse.json(
-            { error: 'Failed to send enquiry. Please try again later.' },
+            { error: `Failed to send enquiry: ${error.message || 'Unknown error'}` },
             { status: 500 }
         );
     }

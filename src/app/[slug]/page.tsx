@@ -14,21 +14,28 @@ interface PageData {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
+    console.log("[generateStaticParams] Fetching slugs...");
     try {
-        const pages = await fetchStrapi('pages?fields=slug');
-        console.log(`[generateStaticParams] Fetched pages:`, JSON.stringify(pages));
+        const pages = await fetchStrapi('pages?fields[0]=slug');
 
-        if (!pages || !Array.isArray(pages)) {
-            console.warn(`[generateStaticParams] No pages found or pages is not an array`);
-            return [];
+        let slugs: { slug: string }[] = [];
+        if (pages && Array.isArray(pages)) {
+            slugs = pages.map((p: any) => ({
+                slug: (p.attributes?.slug || p.slug || "").toString()
+            })).filter(item => item.slug.length > 0);
         }
 
-        return pages.map((page: any) => ({
-            slug: page.attributes?.slug || page.slug || "",
-        })).filter(p => p.slug !== "");
+        // Must return at least one valid path for static export to pass validation
+        if (slugs.length === 0) {
+            console.warn("[generateStaticParams] No pages found in Strapi. Using fallback 'test' slug.");
+            return [{ slug: 'test' }];
+        }
+
+        console.log(`[generateStaticParams] Found ${slugs.length} dynamic pages.`);
+        return slugs;
     } catch (error) {
-        console.error(`[generateStaticParams] Error:`, error);
-        return [];
+        console.error("[generateStaticParams] Error:", error);
+        return [{ slug: 'test' }];
     }
 }
 

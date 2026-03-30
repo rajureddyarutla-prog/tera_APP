@@ -1,17 +1,15 @@
 import type { NextConfig } from "next";
 import path from "path";
 
-const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  output: 'export',       // Static HTML export for Hostinger
+  trailingSlash: true,
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
-  //   output: 'export', // Enables Static HTML Export
-  //   trailingSlash: true, // Creates folders with index.html for better static hosting
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true,   // Required for static export
   },
 
   turbopack: {

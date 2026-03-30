@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ExternalLink, ArrowRight, Activity, Brain, Cpu, Database, Shield, Globe, LucideIcon } from "lucide-react";
+
+const UseCasesSection = dynamic(() => import("@/components/home/UseCasesGrid"), {
+  ssr: true,
+});
 import { fetchStrapi } from "@/lib/strapi";
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -108,12 +113,20 @@ const defaultLocations = [
 ];
 
 export default async function HomePage() {
-  // Fetch dynamic content
-  const heroData = await fetchStrapi("hero");
-  const techPillarsData = await fetchStrapi("tech-pillars");
-  const useCasesData = await fetchStrapi("use-cases");
-  const researchStudiesData = await fetchStrapi("research-studies");
-  const locationsData = await fetchStrapi("locations");
+  // Fetch dynamic content in parallel to reduce TTFB
+  const [
+    heroData,
+    techPillarsData,
+    useCasesData,
+    researchStudiesData,
+    locationsData
+  ] = await Promise.all([
+    fetchStrapi("hero"),
+    fetchStrapi("tech-pillars"),
+    fetchStrapi("use-cases"),
+    fetchStrapi("research-studies"),
+    fetchStrapi("locations")
+  ]);
 
   // Hero fallback
   const hero = {
@@ -656,39 +669,7 @@ export default async function HomePage() {
               <span className="gradient-text">Cross-Segment</span> Use Cases
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.25rem" }} className="usecase-grid">
-            {useCases.map((uc: UseCase) => (
-              <div key={uc.segment} className="glass-card" style={{ padding: "2rem" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-                  <span
-                    style={{
-                      fontSize: "0.65rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: uc.color,
-                      background: `${uc.color}12`,
-                      border: `1px solid ${uc.color}28`,
-                      padding: "0.2rem 0.6rem",
-                      borderRadius: "100px",
-                    }}
-                  >
-                    {uc.tag}
-                  </span>
-                </div>
-                <h3 style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>{uc.segment}</h3>
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", marginBottom: "1.25rem", lineHeight: 1.7 }}>{uc.desc}</p>
-                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                  {uc.items.map((item: string) => (
-                    <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "0.625rem" }}>
-                      <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: uc.color, marginTop: "0.6rem", flexShrink: 0 }} />
-                      <span style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <UseCasesSection useCases={useCases} />
         </div>
         <style>{`
           @media (max-width: 700px) { .usecase-grid { grid-template-columns: 1fr !important; } }

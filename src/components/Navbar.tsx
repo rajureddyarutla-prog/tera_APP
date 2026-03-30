@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ExternalLink } from "lucide-react";
 
@@ -36,10 +37,8 @@ export default function Navbar({ navData }: { navData?: NavData }) {
     const logoTop = navData?.logo_text_top || "Mattera";
     const logoBottom = navData?.logo_text_bottom || "Life Systems";
 
-    const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '');
-    const logoSrc = navData?.logo_image?.url
-        ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
-        : "/mattera.webp";
+    // Forced to local logo for now because Strapi file is 404 (missing)
+    const logoSrc = "/mattera.png";
 
     const links = navData?.nav_links || [
         { label: "Home", href: "/" },
@@ -103,8 +102,8 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                     background: scrolled
                         ? "var(--bg-primary)"
                         : "transparent",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
                     borderBottom: scrolled
                         ? "1px solid var(--border-subtle)"
                         : "1px solid transparent",
@@ -123,30 +122,20 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                     {/* Logo */}
                     <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
                         {logoSrc && !logoError ? (
-                            <img
+                            <Image
                                 src={logoSrc}
-                                alt="Mattera Life Systems Logo"
+                                alt="Mattera Life Systems"
                                 width={160}
                                 height={40}
-                                decoding="async"
-                                fetchPriority="low"
+                                priority
+                                className="nav-logo"
                                 style={{
                                     height: "40px",
                                     width: "auto",
                                     objectFit: "contain",
                                     borderRadius: "4px"
                                 }}
-                                onError={(e) => {
-                                    const target = e.currentTarget as HTMLImageElement;
-                                    const fallback = "/mattera.png";
-                                    // If we haven't tried the fallback yet, try it now
-                                    if (target.src.indexOf(fallback) === -1) {
-                                        target.src = fallback;
-                                    } else {
-                                        // If even the fallback fails, show the SVG icon
-                                        setLogoError(true);
-                                    }
-                                }}
+                                onError={() => setLogoError(true)}
                             />
                         ) : (
                             <div
