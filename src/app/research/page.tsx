@@ -1,13 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Search, Activity, Cpu, Shield, Database, Microscope, FlaskConical } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
-
-export const metadata: Metadata = {
-    title: "Research — Mattera Animal Intelligence Lab",
-    description:
-        "Mattera operates a structured research architecture spanning Behavioral Baseline Modeling, Predictive Disease Modeling, Signal Fusion, and Wearable Hardware.",
-};
 
 interface ResearchArea {
     id: string;
@@ -34,8 +30,24 @@ interface MethodologyItem {
     color: string;
 }
 
-export default async function ResearchPage() {
-    const data = await fetchStrapi('research-page');
+export default function ResearchPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('research-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load research data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "Mattera Animal Intelligence Lab";
     const title = data?.title || "Structured Research in Veterinary Predictive Intelligence";
@@ -95,7 +107,6 @@ export default async function ResearchPage() {
         { label: "Multi-Signal Validation", color: "#8FA7FF" },
     ];
 
-    // New Publications Section from Strapi
     const publications = data?.publications_section || {
         title: "Academic Publications",
         description: "Our research group is currently preparing longitudinal behavioral studies for peer review. Publications will be listed here as they are released."

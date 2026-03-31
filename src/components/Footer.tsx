@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -24,10 +24,27 @@ interface NavData {
     };
 }
 
-export default function Footer({ navData }: { navData?: NavData }) {
+import { fetchStrapi } from "@/lib/strapi";
+
+export default function Footer({ navData: initialNavData }: { navData?: NavData }) {
+    const [navData, setNavData] = useState<NavData | undefined>(initialNavData);
     const [logoError, setLogoError] = useState(false);
 
-    const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '');
+    useEffect(() => {
+        async function getLiveNav() {
+            try {
+                const liveData = await fetchStrapi('navigation');
+                if (liveData) {
+                    setNavData(liveData);
+                }
+            } catch (err) {
+                console.error("Failed to fetch live navigation for footer:", err);
+            }
+        }
+        getLiveNav();
+    }, []);
+
+    const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'https://admin.matteralifesystems.com').replace(/\/$/, '');
     const logoSrc = navData?.logo_image?.url
         ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
         : "/mattera.webp";
@@ -91,55 +108,18 @@ export default function Footer({ navData }: { navData?: NavData }) {
                     {/* Brand column */}
                     <div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-                            {logoSrc && !logoError ? (
-                                <Image
-                                    src={logoSrc}
-                                    alt="Mattera"
-                                    width={160}
-                                    height={40}
-                                    loading="lazy"
-                                    style={{
-                                        height: "40px",
-                                        width: "auto",
-                                        objectFit: "contain",
-                                        borderRadius: "4px"
-                                    }}
-                                    onError={() => setLogoError(true)}
-                                />
-                            ) : (
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.75rem'
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            width: "40px",
-                                            height: "40px",
-                                            background: "linear-gradient(135deg, #4FD1C5, #8FA7FF)",
-                                            borderRadius: "10px",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}
-                                    >
-                                        <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
-                                            <path d="M10 2L18 6V14L10 18L2 14V6L10 2Z" stroke="#0B0F19" strokeWidth="1.5" strokeLinejoin="round" />
-                                            <path d="M10 6V14M6 8L14 12M14 8L6 12" stroke="#0B0F19" strokeWidth="1.5" strokeLinecap="round" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>
-                                            Mattera Life Systems
-                                        </div>
-                                        <div style={{ fontFamily: "var(--font-inter)", fontSize: "0.7rem", color: "var(--accent-teal)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                                            Private Limited
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <Image
+                                src="/mattera.png"
+                                alt="Mattera"
+                                width={160}
+                                height={40}
+                                loading="lazy"
+                                style={{
+                                    height: "40px",
+                                    width: "auto",
+                                    objectFit: "contain",
+                                }}
+                            />
                         </div>
                         <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: "300px" }}>
                             Engineering predictive health intelligence infrastructure for animals across species and environments.

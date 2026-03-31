@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, CheckCircle } from "lucide-react";
 
 interface ContactFormProps {
     enquiryTypes: string[];
 }
 
+// useEffect(() => {
+//     console.log(process.env.NEXT_PUBLIC_API_URL);
+// }, []);
 export default function ContactForm({ enquiryTypes = [
     "Research Collaboration",
     "Investment Discussion",

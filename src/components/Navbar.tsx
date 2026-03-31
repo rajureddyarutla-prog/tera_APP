@@ -28,17 +28,37 @@ interface NavData {
     };
 }
 
-export default function Navbar({ navData }: { navData?: NavData }) {
+import { fetchStrapi } from "@/lib/strapi";
+
+export default function Navbar({ navData: initialNavData }: { navData?: NavData }) {
+    const [navData, setNavData] = useState<NavData | undefined>(initialNavData);
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [logoError, setLogoError] = useState(false);
     const pathname = usePathname();
 
+    useEffect(() => {
+        async function getLiveNav() {
+            try {
+                const liveData = await fetchStrapi('navigation');
+                if (liveData) {
+                    setNavData(liveData);
+                }
+            } catch (err) {
+                console.error("Failed to fetch live navigation:", err);
+            }
+        }
+        getLiveNav();
+    }, []);
+
     const logoTop = navData?.logo_text_top || "Mattera";
     const logoBottom = navData?.logo_text_bottom || "Life Systems";
 
-    // Forced to local logo for now because Strapi file is 404 (missing)
-    const logoSrc = "/mattera.png";
+    // Try to get logo from Strapi if available
+    const strapiUrl = (process.env.NEXT_PUBLIC_STRAPI_URL || 'https://admin.matteralifesystems.com').replace(/\/$/, '');
+    const logoSrc = navData?.logo_image?.url
+        ? (navData.logo_image.url.startsWith('http') ? navData.logo_image.url : `${strapiUrl}${navData.logo_image.url}`)
+        : "/mattera.png";
 
     const links = navData?.nav_links || [
         { label: "Home", href: "/" },
@@ -121,58 +141,19 @@ export default function Navbar({ navData }: { navData?: NavData }) {
                 >
                     {/* Logo */}
                     <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                        {logoSrc && !logoError ? (
-                            <Image
-                                src={logoSrc}
-                                alt="Mattera Life Systems"
-                                width={160}
-                                height={40}
-                                priority
-                                className="nav-logo"
-                                style={{
-                                    height: "40px",
-                                    width: "auto",
-                                    objectFit: "contain",
-                                    borderRadius: "4px"
-                                }}
-                                onError={() => setLogoError(true)}
-                            />
-                        ) : (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.75rem'
-                                }}
-                            >
-                                {/* Logo mark icon */}
-                                <div
-                                    style={{
-                                        width: "36px",
-                                        height: "36px",
-                                        background: "linear-gradient(135deg, #4FD1C5, #8FA7FF)",
-                                        borderRadius: "8px",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        flexShrink: 0,
-                                    }}
-                                >
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                        <path d="M10 2L18 6V14L10 18L2 14V6L10 2Z" stroke="#0B0F19" strokeWidth="1.5" strokeLinejoin="round" />
-                                        <path d="M10 6V14M6 8L14 12M14 8L6 12" stroke="#0B0F19" strokeWidth="1.5" strokeLinecap="round" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div style={{ fontFamily: "var(--font-sora)", fontWeight: 700, fontSize: "1rem", color: "var(--text-primary)", lineHeight: 1.1 }}>
-                                        {logoTop}
-                                    </div>
-                                    <div style={{ fontFamily: "var(--font-inter)", fontWeight: 400, fontSize: "0.625rem", color: "var(--accent-teal)", letterSpacing: "0.15em", textTransform: "uppercase", lineHeight: 1.2 }}>
-                                        {logoBottom}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        <Image
+                            src="/mattera.png"
+                            alt="Mattera"
+                            width={160}
+                            height={40}
+                            priority
+                            className="nav-logo"
+                            style={{
+                                height: "40px",
+                                width: "auto",
+                                objectFit: "contain",
+                            }}
+                        />
                     </Link>
 
                     {/* Desktop Nav */}

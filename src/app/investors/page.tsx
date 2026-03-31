@@ -1,13 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, BarChart3, ShieldCheck, Globe2, Network, ScrollText, Binary } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
-
-export const metadata: Metadata = {
-    title: "Investors — Mattera Life Systems",
-    description:
-        "Venture-scale infrastructure for animal health intelligence. Mattera is building the category-defining AI data layer for animal health.",
-};
 
 interface MarketStat {
     value: string;
@@ -36,8 +32,24 @@ interface GrowthStep {
     color: string;
 }
 
-export default async function InvestorsPage() {
-    const data = await fetchStrapi('investors-page');
+export default function InvestorsPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('investors-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load investors data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "Investor Overview";
     const title = data?.title || "Venture-Scale Infrastructure for Animal Health Intelligence";
@@ -88,7 +100,6 @@ export default async function InvestorsPage() {
         { phase: "Phase 4", title: "Global Research Network", desc: "International collaborations and data partnerships", color: "#8FA7FF" },
     ];
 
-    // New Sections from Strapi
     const marketOpportunity = data?.market_opportunity_section || {
         badge: "Market Opportunity",
         title: "Macro Drivers in Animal Healthcare",

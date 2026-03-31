@@ -1,24 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Brain, Activity, Cpu, Database, Shield, Globe, Layers, Zap } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
-
-export const metadata: Metadata = {
-    title: "Platform — PawOS & Wearable Health Infrastructure",
-    description:
-        "PawOS is the central intelligence layer for animal health, integrating software intelligence, wearable hardware, and predictive AI models.",
-};
-
-const iconMap: Record<string, any> = {
-    Brain,
-    Activity,
-    Cpu,
-    Database,
-    Shield,
-    Globe,
-    Layers,
-    Zap
-};
 
 interface EngineCard {
     title: string;
@@ -26,11 +11,26 @@ interface EngineCard {
     color: string;
 }
 
-export default async function PlatformPage() {
-    const data = await fetchStrapi('platform-page');
+export default function PlatformPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('platform-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load platform data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "Platform";
-    const title = data?.title || "Integrated Animal Health Intelligence Platform";
     const description = data?.description || "Mattera's platform layer bridges software intelligence, wearable hardware, and predictive AI models into a unified, continuously learning ecosystem.";
 
     const pawos_features: string[] = data?.pawos_features || [
@@ -66,7 +66,6 @@ export default async function PlatformPage() {
         { title: "Veterinary API Layer", desc: "Planned integrations with veterinary clinic management systems and electronic health record platforms.", color: "#8FA7FF" },
     ];
 
-    // New CTA Section from Strapi
     const cta = data?.cta_section || {
         badge: "Growth Strategy",
         title: "Toward Population-Scale Predictive Health",

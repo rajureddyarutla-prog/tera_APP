@@ -1,11 +1,8 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import { Zap, Shield, Search, Globe, Mail, MapPin } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
-
-export const metadata: Metadata = {
-    title: "Company — Mattera Life Systems",
-    description: "Mattera Life Systems Private Limited is a research and technology company engineering predictive health intelligence infrastructure for animals.",
-};
 
 interface ProfileRow {
     label: string;
@@ -25,15 +22,24 @@ interface LocationBox {
     details: string[];
 }
 
-const iconMap: Record<string, any> = {
-    Zap,
-    Shield,
-    Search,
-    Globe
-};
+export default function CompanyPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
 
-export default async function CompanyPage() {
-    const data = await fetchStrapi('company-page');
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('company-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load company data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "About";
     const title = data?.title || "Building the Missing Intelligence Infrastructure for Animals";
@@ -69,7 +75,6 @@ export default async function CompanyPage() {
 
     const locations: LocationBox[] = data?.locations || [];
 
-    // New Careers Section from Strapi
     const careers = data?.careers_section || {
         title: "Careers at Mattera",
         description: "We are occasionally looking for deep-tech researchers and engineering talent. Send your credentials to info@matteralifesystems.com",
@@ -77,7 +82,6 @@ export default async function CompanyPage() {
         cta_href: "mailto:info@matteralifesystems.com"
     };
 
-    // New Values Section Heading from Strapi
     const ethos = data?.values_section || {
         badge: "Core Principles",
         title: "The Mattera Ethos"
@@ -144,7 +148,7 @@ export default async function CompanyPage() {
                 <style>{`@media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr !important; gap: 3rem !important; } }`}</style>
             </section>
 
-            {/* Values */}
+            {/* Ethos */}
             <section className="section-pad">
                 <div className="section-container">
                     <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>

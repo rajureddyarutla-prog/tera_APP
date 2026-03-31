@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Microscope, FlaskConical, Award, BookOpen, CheckCircle } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
-
-export const metadata: Metadata = {
-    title: "Research Collaboration — Grants & Partnerships",
-    description: "Mattera Life Systems actively seeks research collaborations with veterinary institutions, agricultural universities, and AI research labs.",
-};
 
 interface PartnerCategory {
     title: string;
@@ -33,14 +30,29 @@ interface ValidationPathway {
     desc: string;
 }
 
-export default async function ResearchCollaborationPage() {
-    const data = await fetchStrapi('research-collaboration-page');
+export default function ResearchCollaborationPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('research-collaboration-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load research collaboration data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "Grants & Collaborations";
     const title = data?.title || "Research Partnerships & Grant Programs";
     const description = data?.description || "Mattera Life Systems actively seeks research collaborations with veterinary institutions, agricultural universities, and AI research labs — and is eligible for and pursuing grant funding across AI, veterinary science, and precision agriculture domains.";
 
-    // New Roadmap Section from Strapi
     const roadmap = data?.roadmap_section || {
         badge: "Roadmap",
         title: "Scientific Validation Pathways"

@@ -1,24 +1,28 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import { Mail, MapPin, ExternalLink } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
 import ContactForm from "./ContactForm";
 
-export const metadata: Metadata = {
-    title: "Contact — Mattera Life Systems",
-    description: "Connect with Mattera Life Systems. We welcome enquiries from investors, research institutions, veterinary partners, and hardware development teams.",
-};
+export default function ContactPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
 
-const enquiryTypesDefault = [
-    "Research Collaboration",
-    "Investment Discussion",
-    "Veterinary Partnership",
-    "Hardware Development",
-    "Media / Press",
-    "General Enquiry",
-];
-
-export default async function ContactPage() {
-    const data = await fetchStrapi('contact-page');
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('contact-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load contact data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "Contact";
     const title = data?.title || "Connect with Mattera Life Systems";

@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Brain, Activity, Cpu, Database, Shield, Globe, Layers, Zap } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
-
-export const metadata: Metadata = {
-    title: "Technology — Mattera Life Systems",
-    description: "Multi-layered technical architecture for animal health: AI Intelligence, Data Infrastructure, and Wearable Hardware.",
-};
 
 interface TechLayerItem {
     label: string;
@@ -29,19 +26,24 @@ interface ArchitectureStep {
     color: string;
 }
 
-const iconMap: Record<string, any> = {
-    Brain,
-    Activity,
-    Cpu,
-    Database,
-    Shield,
-    Globe,
-    Layers,
-    Zap
-};
+export default function TechnologyPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
 
-export default async function TechnologyPage() {
-    const data = await fetchStrapi('technology-page');
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('technology-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load technology data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "Technology Stack";
     const title = data?.title || "AI-First Architecture for Animal Health Intelligence";
@@ -56,7 +58,6 @@ export default async function TechnologyPage() {
     ];
     const tech_layers: TechLayer[] = data?.tech_layers || [];
 
-    // New CTA Section from Strapi
     const cta = data?.cta_section || {
         title: "Advancing Animal Intelligence Research",
         description: "Mattera's technology stack is continuously evolving through academic partnerships and longitudinal health studies.",

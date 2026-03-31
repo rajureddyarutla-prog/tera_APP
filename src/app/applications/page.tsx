@@ -1,13 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { fetchStrapi } from "@/lib/strapi";
-
-export const metadata: Metadata = {
-    title: "Applications — Companion Animals, Veterinary, Livestock & Performance",
-    description:
-        "Mattera Life Systems applications span companion animal health monitoring, veterinary clinical intelligence, livestock analytics, and performance animal diagnostics.",
-};
 
 interface Feature {
     title: string;
@@ -23,14 +19,29 @@ interface Application {
     features: Feature[];
 }
 
-export default async function ApplicationsPage() {
-    const data = await fetchStrapi('applications-page');
+export default function ApplicationsPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            try {
+                const result = await fetchStrapi('applications-page');
+                setData(result);
+            } catch (err) {
+                console.warn("Failed to load applications data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
 
     const tag_pill = data?.tag_pill || "Applications";
     const title = data?.title || "Cross-Segment Real-World Applications";
     const description = data?.description || "Mattera's intelligence infrastructure serves four distinct segments — delivering precision health monitoring across companion animals, veterinary clinics, livestock operations, and performance animals.";
 
-    // New CTA Section from Strapi
     const cta = data?.cta_section || {
         title: "Explore the Platform Enabling These Applications",
         description: "PawOS is the live intelligence platform powering all application segments.",
